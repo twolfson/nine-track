@@ -1,7 +1,7 @@
 {
   "name": "nine-track",
   "description": "Record and playback HTTP requests",
-  "version": "2.1.0",
+  "version": "1.0.0",
   "homepage": "https://github.com/twolfson/nine-track",
   "author": {
     "name": "Todd Wolfson",
