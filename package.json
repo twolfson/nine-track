@@ -26,7 +26,10 @@
     "node": ">= 0.8.0"
   },
   "scripts": {
-    "test": "rm -r test/actual-files || true; grunt jshint && mocha"
+    "precheck": "twolfson-style precheck lib/ test/",
+    "lint": "twolfson-style lint lib/ test/",
+    "pretest": "twolfson-style install",
+    "test": "rm -r test/actual-files || true; npm run precheck && mocha --reporter dot && npm run lint"
   },
   "dependencies": {
     "async": "~0.2.10",

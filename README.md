@@ -127,7 +127,7 @@ request('http://localhost:1338/world', console.log);
 ```
 
 ## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint via [grunt](https://github.com/gruntjs/grunt) and test via `npm test`.
+In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint via `npm run lint` and test via `npm test`.
 
 ## License
 All work up to and including `87a024b` is owned by Uber under the [MIT license][].
