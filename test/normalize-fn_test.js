@@ -14,8 +14,8 @@ describe('A server with distinct responses', function () {
     });
   });
 
-  describe('proxied by an eight-track that normalizes everything', function () {
-    serverUtils.runEightServer(1338, {
+  describe('proxied by an nine-track that normalizes everything', function () {
+    serverUtils.runNineServer(1338, {
       fixtureDir: __dirname + '/actual-files/headers',
       url: 'http://localhost:1337',
       normalizeFn: function (info) {

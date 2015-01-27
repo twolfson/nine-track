@@ -1,7 +1,7 @@
 var expect = require('chai').expect;
 var express = require('express');
 var rawBody = require('raw-body');
-var eightTrack = require('../');
+var nineTrack = require('../');
 var httpUtils = require('./utils/http');
 var serverUtils = require('./utils/server');
 
@@ -16,7 +16,7 @@ function connectRawBody(req, res, next) {
   });
 }
 
-describe('A server that asserts content before talking to eight-track', function () {
+describe('A server that asserts content before talking to nine-track', function () {
   serverUtils.run(1337, [
     express.urlencoded(),
     function (req, res) {
@@ -29,12 +29,12 @@ describe('A server that asserts content before talking to eight-track', function
       expect(req.body.toString()).to.equal('hello=world');
       next();
     },
-    eightTrack({
+    nineTrack({
       fixtureDir: __dirname + '/actual-files/buffered-body',
       url: 'http://localhost:1337'
     })
   ]);
-  serverUtils._cleanupEightTrack(__dirname + '/actual-files/buffered-body');
+  serverUtils._cleanupNineTrack(__dirname + '/actual-files/buffered-body');
 
   describe('when requested', function () {
     httpUtils.save({

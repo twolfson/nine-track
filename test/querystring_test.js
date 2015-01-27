@@ -8,7 +8,7 @@ describe('A query-echoing server being proxied', function () {
   serverUtils.run(1337, function (req, res) {
     res.send(req.query);
   });
-  serverUtils.runEightServer(1338, {
+  serverUtils.runNineServer(1338, {
     fixtureDir: __dirname + '/actual-files/query',
     url: 'http://localhost:1337'
   });

@@ -1,8 +1,8 @@
 {
-  "name": "eight-track",
+  "name": "nine-track",
   "description": "Record and playback HTTP requests",
   "version": "2.1.0",
-  "homepage": "https://github.com/uber/eight-track",
+  "homepage": "https://github.com/twolfson/nine-track",
   "author": {
     "name": "Todd Wolfson",
     "email": "todd@twolfson.com",
@@ -10,18 +10,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/uber/eight-track.git"
+    "url": "git://github.com/twolfson/nine-track.git"
   },
   "bugs": {
-    "url": "https://github.com/uber/eight-track/issues"
+    "url": "https://github.com/twolfson/nine-track/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/uber/eight-track/blob/master/LICENSE-MIT"
+      "url": "https://github.com/twolfson/nine-track/blob/master/LICENSE-MIT"
     }
   ],
-  "main": "lib/eight-track",
+  "main": "lib/nine-track",
   "engines": {
     "node": ">= 0.8.0"
   },

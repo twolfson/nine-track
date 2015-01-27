@@ -3,11 +3,11 @@ var httpUtils = require('./utils/http');
 var serverUtils = require('./utils/server');
 
 // DEV: This is a regression test for https://github.com/uber/eight-track/issues/21
-describe('A server being proxied by `eight-track` with a noramlizeFn that modifies a deep property', function () {
+describe('A server being proxied by `nine-track` with a noramlizeFn that modifies a deep property', function () {
   serverUtils.run(1337, function (req, res) {
     res.send(req.headers);
   });
-  serverUtils.runEightServer(1338, {
+  serverUtils.runNineServer(1338, {
     fixtureDir: __dirname + '/actual-files/deep-normalize',
     url: 'http://localhost:1337',
     normalizeFn: function (info) {

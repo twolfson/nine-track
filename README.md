@@ -1,29 +1,29 @@
-# eight-track [![Build status](https://travis-ci.org/uber/eight-track.png?branch=master)](https://travis-ci.org/uber/eight-track)
+# nine-track [![Build status](https://travis-ci.org/twolfson/nine-track.png?branch=master)](https://travis-ci.org/twolfson/nine-track)
 
 Record and playback HTTP requests
 
 This is built to make testing against third party services a breeze. No longer will your test suite fail because an external service is down.
 
-> `eight-track` is inspired by [`cassette`][] and [`vcr`][]
+> `nine-track` is inspired by [`cassette`][] and [`vcr`][]. This is a fork of [`nine-track`][] due to permissioning issues.
 
 [`cassette`]: https://github.com/uber/cassette
 [`vcr`]: https://rubygems.org/gems/vcr
 
 ## Getting Started
-Install the module with: `npm install eight-track`
+Install the module with: `npm install nine-track`
 
-```javascript
+```js
 // Start up a basic applciation
 var express = require('express');
-var eightTrack = require('eight-track');
+var nineTrack = require('nine-track');
 var request = require('request');
 express().use(function (req, res) {
   console.log('Pinged!');
   res.send('Hello World!');
 }).listen(1337);
 
-// Create a server using a `eight-track` middleware to the original
-express().use(eightTrack({
+// Create a server using a `nine-track` middleware to the original
+express().use(nineTrack({
   url: 'http://localhost:1337',
   fixtureDir: 'directory/to/save/responses'
 })).listen(1338);
@@ -36,10 +36,10 @@ request('http://localhost:1338/', console.log);
 ```
 
 ## Documentation
-`eight-track` exposes `eightTrack` as its `module.exports`.
+`nine-track` exposes `nineTrack` as its `module.exports`.
 
-### `eightTrack(options)`
-Middleware creator for new `eightTrack's`. This *is not* a constructor.
+### `nineTrack(options)`
+Middleware creator for new `nineTrack's`. This *is not* a constructor.
 
 - options `Object` - Container for parameters
     - url `String|Object` - URL of a server to proxy to
@@ -62,17 +62,17 @@ Middleware creator for new `eightTrack's`. This *is not* a constructor.
 
 [`url.format`]: http://nodejs.org/api/url.html#url_url_format_urlobj
 
-`eightTrack` returns a middleware with the signature `function (req, res)`
+`nineTrack` returns a middleware with the signature `function (req, res)`
 
 ```js
 // Example of string url
-eightTrack({
+nineTrack({
   url: 'http://localhost:1337',
   fixtureDir: 'directory/to/save/responses'
 });
 
 // Example of object url
-eightTrack({
+nineTrack({
   url: {
     protocol: 'http:',
     hostname: 'localhost',
@@ -82,14 +82,14 @@ eightTrack({
 });
 ```
 
-If you need to buffer the data before passing it off to `eight-track` that is supported as well.
+If you need to buffer the data before passing it off to `nine-track` that is supported as well.
 The requirement is that you record the data as a `Buffer` or `String` to `req.body`.
 
 #### `normalizeFn` libraries
 - `multipart/form-data` - Ignore randomly generated boundaries and consolidate similar `multipart/form-data` requests
-    - Website: https://github.com/twolfson/eight-track-normalize-multipart
+    - Website: https://github.com/twolfson/nine-track-normalize-multipart
 
-### `eightTrack.forwardRequest(req, cb)`
+### `nineTrack.forwardRequest(req, cb)`
 Forward an incoming HTTP request in a [`mikeal/request`][]-like format.
 
 - req `http.IncomingMessage` - Inbound request to an HTTP server (e.g. from `http.createServer`)
@@ -108,7 +108,7 @@ Forward an incoming HTTP request in a [`mikeal/request`][]-like format.
 
 ## Examples
 ### Proxy server with subpath
-`eight-track` can talk to servers that are behind a specific path
+`nine-track` can talk to servers that are behind a specific path
 
 ```js
 // Start up a server that echoes our path
@@ -116,8 +116,8 @@ express().use(function (req, res) {
   res.send(req.path);
 }).listen(1337);
 
-// Create a server using a `eight-track` middleware to the original
-express().use(eightTrack({
+// Create a server using a `nine-track` middleware to the original
+express().use(nineTrack({
   url: 'http://localhost:1337/hello',
   fixtureDir: 'directory/to/save/responses'
 })).listen(1338);
@@ -130,6 +130,10 @@ request('http://localhost:1338/world', console.log);
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint via [grunt](https://github.com/gruntjs/grunt) and test via `npm test`.
 
 ## License
-Copyright (c) 2014 Uber
+All work up to and including `87a024b` is owned by Uber under the [MIT license][].
 
-Licensed under the MIT license.
+[MIT license]: https://github.com/twolfson/nine-track/blob/87a024ba47584311dc3d5bc10e11682c1fbd7bdf/LICENSE-MIT
+
+After that commit, all modifications to the work have been released under the [UNLICENSE][] to the public domain.
+
+[UNLICENSE]: UNLICENSE

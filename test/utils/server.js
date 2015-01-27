@@ -2,7 +2,7 @@ var https = require('https');
 var express = require('express');
 var pem = require('pem');
 var rimraf = require('rimraf');
-var eightTrack = require('../../');
+var nineTrack = require('../../');
 
 before(function () {
   this.requests = {};
@@ -67,13 +67,13 @@ exports.runHttps = function (port, middlewares) {
   }, port, middlewares);
 };
 
-// Start an eight-track server
-exports._cleanupEightTrack = function (fixtureDir) {
-  after(function cleanupEightTrack (done) {
+// Start an nine-track server
+exports._cleanupNineTrack = function (fixtureDir) {
+  after(function cleanupNineTrack (done) {
     rimraf(fixtureDir, done);
   });
 };
-exports.runEightServer = function (port, options) {
-  exports.run(port, eightTrack(options));
-  exports._cleanupEightTrack(options.fixtureDir);
+exports.runNineServer = function (port, options) {
+  exports.run(port, nineTrack(options));
+  exports._cleanupNineTrack(options.fixtureDir);
 };

@@ -1,6 +1,6 @@
 var fs = require('fs');
 var expect = require('chai').expect;
-var eightTrack = require('../');
+var nineTrack = require('../');
 var httpUtils = require('./utils/http');
 var serverUtils = require('./utils/server');
 
@@ -9,9 +9,9 @@ describe('A server', function () {
     res.send('oh hai');
   });
 
-  describe('being proxied by `eight-track`', function () {
+  describe('being proxied by `nine-track`', function () {
     var fixtureDir = __dirname + '/actual-files/basic';
-    serverUtils.runEightServer(1338, {
+    serverUtils.runNineServer(1338, {
       fixtureDir: fixtureDir,
       url: 'http://localhost:1337'
     });
@@ -51,12 +51,12 @@ describe('A server', function () {
   });
 });
 
-describe('An `eight-track` loading from a saved file', function () {
+describe('An `nine-track` loading from a saved file', function () {
   serverUtils.run(1337, function (req, res) {
     // DEV: Same length as 'oh hai' for easier development =P
     res.send('NOOOOO');
   });
-  serverUtils.run(1338, eightTrack({
+  serverUtils.run(1338, nineTrack({
     fixtureDir: __dirname + '/test-files/saved',
     url: 'http://localhost:1337'
   }));

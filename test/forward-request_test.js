@@ -1,24 +1,24 @@
 var expect = require('chai').expect;
 var rimraf = require('rimraf');
-var eightTrack = require('../');
+var nineTrack = require('../');
 var httpUtils = require('./utils/http');
 var serverUtils = require('./utils/server');
 
-describe('An `eight-track` with a response modifier', function () {
+describe('An `nine-track` with a response modifier', function () {
   serverUtils.run(1337, function (req, res) {
     res.send('oh hai', 418);
   });
   var fixtureDir =  __dirname + '/actual-files/response-modifier';
-  var _eightTrack = eightTrack({
+  var _nineTrack = nineTrack({
     fixtureDir: fixtureDir,
     url: 'http://localhost:1337'
   });
   serverUtils.run(1338, function (req, res) {
-    _eightTrack.forwardRequest(req, function (err, remoteRes, remoteBody) {
+    _nineTrack.forwardRequest(req, function (err, remoteRes, remoteBody) {
       res.send(remoteBody.toString().replace('hai', 'haiii'), remoteRes.statusCode);
     });
   });
-  after(function cleanupEightTrack (done) {
+  after(function cleanupNineTrack (done) {
     rimraf(fixtureDir, done);
   });
 

@@ -6,7 +6,7 @@ describe('A failing server that is being proxied', function () {
   serverUtils.run(1337, function (req, res) {
     res.send('error', 500);
   });
-  serverUtils.runEightServer(1338, {
+  serverUtils.runNineServer(1338, {
     fixtureDir: __dirname + '/actual-files/status',
     url: 'http://localhost:1337'
   });

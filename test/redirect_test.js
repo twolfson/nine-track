@@ -3,7 +3,7 @@ var httpUtils = require('./utils/http');
 var serverUtils = require('./utils/server');
 
 // DEV: This is a regression test for https://github.com/uber/eight-track/issues/18
-describe('A server with redirect being proxied by `eight-track`', function () {
+describe('A server with redirect being proxied by `nine-track`', function () {
   serverUtils.run(1337, function (req, res) {
     if (req.url === '/') {
       res.redirect('/main');
@@ -11,7 +11,7 @@ describe('A server with redirect being proxied by `eight-track`', function () {
       res.send('oh hai');
     }
   });
-  serverUtils.runEightServer(1338, {
+  serverUtils.runNineServer(1338, {
     fixtureDir: __dirname + '/actual-files/redirect',
     url: 'http://localhost:1337'
   });

@@ -12,8 +12,8 @@ describe('A server with multiple paths', function () {
     }
   });
 
-  describe('being proxied by `eight-track`', function () {
-    serverUtils.runEightServer(1338, {
+  describe('being proxied by `nine-track`', function () {
+    serverUtils.runNineServer(1338, {
       fixtureDir: __dirname + '/actual-files/multi',
       url: 'http://localhost:1337'
     });

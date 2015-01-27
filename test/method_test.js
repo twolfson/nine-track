@@ -13,7 +13,7 @@ describe('A server that echoes method that is being proxied', function () {
       });
     });
   });
-  serverUtils.runEightServer(1338, {
+  serverUtils.runNineServer(1338, {
     fixtureDir: __dirname + '/actual-files/method',
     url: 'http://localhost:1337'
   });

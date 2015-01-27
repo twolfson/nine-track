@@ -3,11 +3,11 @@ var httpUtils = require('./utils/http');
 var serverUtils = require('./utils/server');
 
 // DEV: This is a regression test for https://github.com/uber/eight-track/issues/7
-describe('A server being proxied by `eight-track', function () {
+describe('A server being proxied by `nine-track', function () {
   serverUtils.run(1337, function (req, res) {
     res.send('oh hai');
   });
-  serverUtils.runEightServer(1338, {
+  serverUtils.runNineServer(1338, {
     fixtureDir: __dirname + '/actual-files/basic',
     url: 'http://localhost:1337'
   });

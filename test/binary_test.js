@@ -1,17 +1,17 @@
 var expect = require('chai').expect;
-var eightTrack = require('../');
+var nineTrack = require('../');
 var httpUtils = require('./utils/http');
 var serverUtils = require('./utils/server');
 
 // DEV: This is a regression test for https://github.com/uber/eight-track/issues/17
-describe('A server being proxied by `eight-track` that delivers binary content', function () {
+describe('A server being proxied by `nine-track` that delivers binary content', function () {
   describe('when requested', function () {
     serverUtils.run(1337, function (req, res) {
       var buff = new Buffer(256);
       buff.write('\u0042', 0);
       res.send(buff);
     });
-    serverUtils.runEightServer(1338, {
+    serverUtils.runNineServer(1338, {
       fixtureDir: __dirname + '/actual-files/binary',
       url: 'http://localhost:1337'
     });
@@ -56,7 +56,7 @@ describe('A server being proxied by `eight-track` that delivers binary content',
       // var buff = new Buffer(256); buff.write('\u0042', 0); res.send(buff);
       res.send('Not binary content');
     });
-    serverUtils.run(1338, eightTrack({
+    serverUtils.run(1338, nineTrack({
       fixtureDir: __dirname + '/test-files/saved-binary',
       url: 'http://localhost:1337'
     }));

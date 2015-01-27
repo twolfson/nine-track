@@ -1,14 +1,14 @@
 // Start up a basic applciation
 var express = require('express');
-var eightTrack = require('../');
+var nineTrack = require('../');
 var request = require('request');
 express().use(function (req, res) {
   console.log('Pinged!');
   res.send('Hello World!');
 }).listen(1337);
 
-// Create a server using a `eight-track` middleware to the original
-express().use(eightTrack({
+// Create a server using a `nine-track` middleware to the original
+express().use(nineTrack({
   url: 'http://localhost:1337',
   fixtureDir: 'directory/to/save/responses'
 })).listen(1338);

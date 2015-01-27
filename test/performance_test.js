@@ -2,7 +2,7 @@ var fs = require('fs');
 var assert = require('assert');
 var async = require('async');
 var request = require('request');
-var eightTrack = require('../');
+var nineTrack = require('../');
 var httpUtils = require('./utils/http');
 var serverUtils = require('./utils/server');
 
@@ -15,7 +15,7 @@ describe('A repeated request run 1000 times', function () {
   serverUtils.run(1337, function (req, res) {
     res.send(expectedStr);
   });
-  serverUtils.run(1338, eightTrack({
+  serverUtils.run(1338, nineTrack({
     fixtureDir: fixtureDir,
     url: 'http://localhost:1337'
   }));
@@ -25,7 +25,7 @@ describe('A repeated request run 1000 times', function () {
   });
 
   // Run our actual server
-  serverUtils.runEightServer(1339, {
+  serverUtils.runNineServer(1339, {
     fixtureDir: fixtureDir,
     url: 'http://localhost:1337'
   });

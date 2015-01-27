@@ -2,11 +2,11 @@ var expect = require('chai').expect;
 var httpUtils = require('./utils/http');
 var serverUtils = require('./utils/server');
 
-describe('An `eight-track` server proxying a subpath', function () {
+describe('An `nine-track` server proxying a subpath', function () {
   serverUtils.run(1337, function (req, res) {
     res.send(req.url);
   });
-  serverUtils.runEightServer(1338, {
+  serverUtils.runNineServer(1338, {
     fixtureDir: __dirname + '/actual-files/redirect',
     url: 'http://localhost:1337/hello'
   });
@@ -21,11 +21,11 @@ describe('An `eight-track` server proxying a subpath', function () {
   });
 });
 
-describe('An `eight-track` server proxying an HTTPS server', function () {
+describe('An `nine-track` server proxying an HTTPS server', function () {
   serverUtils.runHttps(1337, function (req, res) {
     res.send('oh hai');
   });
-  serverUtils.runEightServer(1338, {
+  serverUtils.runNineServer(1338, {
     fixtureDir: __dirname + '/actual-files/redirect',
     url: 'https://localhost:1337/'
   });

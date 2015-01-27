@@ -7,7 +7,7 @@ describe('A server that echoes HTTP headers', function () {
   serverUtils.run(1337, function (req, res) {
     res.send(req.headers);
   });
-  serverUtils.runEightServer(1338, {
+  serverUtils.runNineServer(1338, {
     fixtureDir: __dirname + '/actual-files/headers',
     url: 'http://localhost:1337'
   });
