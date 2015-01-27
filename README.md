@@ -4,10 +4,11 @@ Record and playback HTTP requests
 
 This is built to make testing against third party services a breeze. No longer will your test suite fail because an external service is down.
 
-> `nine-track` is inspired by [`cassette`][] and [`vcr`][]. This is a fork of [`nine-track`][] due to permissioning issues.
+> `nine-track` is inspired by [`cassette`][] and [`vcr`][]. This is a fork of [`eight-track`][] due to permissioning issues.
 
 [`cassette`]: https://github.com/uber/cassette
 [`vcr`]: https://rubygems.org/gems/vcr
+[`eight-track`]: https://github.com/uber/eight-track
 
 ## Getting Started
 Install the module with: `npm install nine-track`
