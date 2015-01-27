@@ -28,7 +28,6 @@
   "scripts": {
     "precheck": "twolfson-style precheck lib/ test/",
     "lint": "twolfson-style lint lib/ test/",
-    "pretest": "twolfson-style install",
     "test": "rm -r test/actual-files || true; npm run precheck && mocha --reporter dot && npm run lint"
   },
   "dependencies": {
@@ -44,7 +43,7 @@
     "chai": "~1.8.1",
     "express": "~3.4.7",
     "grunt-cli": "~0.1.11",
-    "jscs": "~1.7.3",
+    "jscs": "~1.10.0",
     "jshint": "~2.5.10",
     "mocha": "~1.11.0",
     "pem": "~1.4.0",

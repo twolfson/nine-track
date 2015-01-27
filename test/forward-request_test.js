@@ -22,7 +22,6 @@ describe('An `nine-track` with a response modifier', function () {
     rimraf(fixtureDir, done);
   });
 
-
   describe('receiving a request', function () {
     httpUtils.save({
       url: 'http://localhost:1338/'

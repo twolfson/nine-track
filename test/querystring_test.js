@@ -18,7 +18,7 @@ describe('A query-echoing server being proxied', function () {
 
     it('receives with its query parameters', function () {
       expect(this.err).to.equal(null);
-      expect(JSON.parse(this.body)).to.deep.equal({hello:'world'});
+      expect(JSON.parse(this.body)).to.deep.equal({hello: 'world'});
     });
 
     describe('when requested again', function () {
@@ -34,7 +34,7 @@ describe('A query-echoing server being proxied', function () {
 
       it('receives a different set of parameters', function () {
         expect(this.err).to.equal(null);
-        expect(JSON.parse(this.body)).to.deep.equal({goodbye:'moon'});
+        expect(JSON.parse(this.body)).to.deep.equal({goodbye: 'moon'});
       });
     });
   });

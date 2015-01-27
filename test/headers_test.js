@@ -55,6 +55,5 @@ describe('A server that echoes HTTP headers', function () {
         expect(JSON.parse(this.body)).to.have.property('x-goodbye', 'moon');
       });
     });
-
   });
 });

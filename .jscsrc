@@ -24,7 +24,7 @@
     "beforeOpeningRoundBrace": true
   },
   "disallowSpacesInCallExpression": true,
-  "disallowMultipleVarDecl": true,
+  "disallowMultipleVarDecl": "exceptUndefined",
   "requireBlocksOnNewline": 1,
   "disallowPaddingNewlinesInBlocks": true,
   "disallowSpacesInsideObjectBrackets": "all",
