@@ -42,7 +42,6 @@
   "devDependencies": {
     "chai": "~1.8.1",
     "express": "~3.4.7",
-    "grunt-cli": "~0.1.11",
     "jscs": "~1.10.0",
     "jshint": "~2.5.10",
     "mocha": "~1.11.0",
