@@ -52,14 +52,34 @@ Middleware creator for new `nineTrack's`. This *is not* a constructor.
     - normalizeFn `Function` - Function to adjust `request's` save location signature
         - If you would like to make two requests resolve from the same response file, this is how.
         - The function signature should be `function (info)` and can either mutate the `info` or return a fresh object
-        - `info` will have the following properties
-             - httpVersion `String` - HTTP version received from `request` (e.g. `1.0`, `1.1`)
-             - headers `Object` - Headers received by `request`
-             - trailers `Object` - Trailers received by `request`
-             - method `String` - HTTP method that was used (e.g. `GET`, `POST`)
-             - url `String` - Pathname that `request` arrived from
-             - body `Buffer` - Buffered body that was written to `request`
+        - info `Object` - Container for `request` information
+            - httpVersion `String` - HTTP version received from `request` (e.g. `1.0`, `1.1`)
+            - headers `Object` - Headers received by `request`
+                - An example would be `{"host": "locahost:1337"}`
+            - trailers `Object` - Trailers received by `request`
+            - method `String` - HTTP method that was used (e.g. `GET`, `POST`)
+            - url `String` - Pathname that `request` arrived from
+                - An example would be `/`
+            - body `Buffer` - Buffered body that was written to `request`
         - Existing `normalizeFn` libraries (e.g. `multipart/form-data` can be found below)
+    - scrubFn `Function` - Functon to adjust `request's` and `response's` before saving to disk
+        - If you would like to sanitize information from JSON files before saving, this is how.
+        - The function signature should be `function (info)` and can either mutate `info` or return a fresh object
+        - info `Object` - Container for `request` and `response` information
+          - request `Object` - Container for `request` information
+            - Same information as present in `normalizeFn.info`
+          - response `Object` - Container for `response` information
+            - httpVersion `String` - HTTP version received from `response` (e.g. `1.0`, `1.1`)
+            - headers `Object` - Headers received by `response`
+                - An example would be `{"x-powered-by": "Express"}`
+            - trailers `Object` - Trailers received by `response`
+            - statusCode `Number` - Status code received from response
+                - An example would be `200`
+            - bodyEncoding `String` - Encoding format used for `body`
+                - This can be `utf8` or `base64`
+                - An example of a valid `utf8` body is `{"hello": "world"}`
+                - A `base64` body is the encoded form of any body that cannot be encoded via `utf8`
+            - body `String` - Encoded response body in `bodyEncoding` format
 
 [`url.format`]: http://nodejs.org/api/url.html#url_url_format_urlobj
 
