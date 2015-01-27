@@ -29,26 +29,26 @@
     "test": "rm -r test/actual-files || true; grunt jshint && mocha"
   },
   "dependencies": {
-    "request": "~2.30.0",
-    "underscore": "~1.5.2",
-    "mkdirp": "~0.3.5",
-    "concat-stream": "~1.2.1",
     "async": "~0.2.10",
     "clone": "~0.1.11",
-    "fs-memory-store": "~0.1.0"
+    "concat-stream": "~1.2.1",
+    "fs-memory-store": "~0.1.0",
+    "mkdirp": "~0.3.5",
+    "request": "~2.30.0",
+    "underscore": "~1.5.2"
   },
   "devDependencies": {
-    "mocha": "~1.11.0",
-    "grunt": "~0.4.1",
-    "grunt-contrib-jshint": "~0.6.0",
-    "grunt-contrib-watch": "~0.4.0",
     "chai": "~1.8.1",
-    "rimraf": "~2.2.5",
     "express": "~3.4.7",
     "grunt-cli": "~0.1.11",
-    "request-mocha": "~0.2.0",
+    "jscs": "~1.7.3",
+    "jshint": "~2.5.10",
+    "mocha": "~1.11.0",
     "pem": "~1.4.0",
-    "raw-body": "~1.1.5"
+    "raw-body": "~1.1.5",
+    "request-mocha": "~0.2.0",
+    "rimraf": "~2.2.5",
+    "twolfson-style": "~1.6.0"
   },
   "keywords": [
     "http",
