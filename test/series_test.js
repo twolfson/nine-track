@@ -115,6 +115,14 @@ describe('A server being proxied via a series `nine-track`', function () {
   serverUtils.run(1337, function startServer (req, res) {
     res.send(req.path);
   });
+  serverUtils.runNineServer(1338, {
+    fixtureDir: __dirname + '/actual-files/series-corrupt',
+    url: 'http://localhost:1337'
+  });
+  before(function enableSeries () {
+    this.nineTrack.startSeries('series-corrupt');
+  });
+
 
   describe('when a request in the chain has been invalidated', function () {
     // First set of requests
@@ -125,7 +133,7 @@ describe('A server being proxied via a series `nine-track`', function () {
     httpUtils.save('http://localhost:1338/hello');
     httpUtils.save('http://localhost:1338/world2');
 
-    it.skip('removes invalid fixtures in our chain', function () {
+    it('removes invalid fixtures in our chain', function () {
 
     });
     it.skip('halts the test by throwing an error', function () {
