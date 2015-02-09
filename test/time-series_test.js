@@ -88,3 +88,14 @@ describe('A CRUD server that is being proxied by a series-based `nine-track`', f
     });
   });
 });
+
+describe('A CRUD server being proxied via a series `nine-track`', function () {
+  describe('when a request in the chain has been invalidated', function () {
+    it.skip('removes invalid fixtures in our chain', function () {
+
+    });
+    it.skip('halts the test by throwing an error', function () {
+
+    });
+  });
+});
