@@ -113,7 +113,7 @@ describe('A CRUD server that is being proxied by a series-based `nine-track`', f
   });
 });
 
-describe.only('A server being proxied via a series `nine-track`', function () {
+describe('A server being proxied via a series `nine-track`', function () {
   var fixtureDir = __dirname + '/actual-files/series-corrupt';
   serverUtils.run(1337, function startServer (req, res) {
     res.send(req.path);
