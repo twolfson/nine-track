@@ -9,12 +9,11 @@ before(function () {
 });
 
 // Helper for starting HTTP and HTTPS servers
-exports._run = function (listenFn, port, middlewares) {
-  var _app;
-  before(function createRequestNamespace () {
+exports._startServer = function (listenFn, port, middlewares) {
+  return function _startServerFn () {
+    // Create a namespace to save the requests
     this.requests[port] = [];
-  });
-  before(function startServer () {
+
     // Save requests as they come in
     var app = express();
     var that = this;
@@ -30,7 +29,14 @@ exports._run = function (listenFn, port, middlewares) {
     middlewares.forEach(function (middleware) {
       app.use(middleware);
     });
-    _app = listenFn(app, port);
+    return listenFn(app, port);
+  };
+};
+exports._run = function (listenFn, port, middlewares) {
+  var _app;
+  var startServerFn = exports._startServer(listenFn, port, middlewares);
+  before(function startServer () {
+    _app = startServerFn();
   });
   after(function deleteServer (done) {
     _app.close(done);
