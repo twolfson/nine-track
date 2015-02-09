@@ -135,6 +135,7 @@ describe.only('A server being proxied via a series `nine-track`', function () {
         req.on('error', function handleErr (err) {
           that.reqErr = err;
         });
+        next();
       },
       this.nineTrack
     ]);
