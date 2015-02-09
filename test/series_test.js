@@ -111,29 +111,19 @@ describe('A CRUD server that is being proxied by a series-based `nine-track`', f
   });
 });
 
-describe('A CRUD server being proxied via a series `nine-track`', function () {
+describe('A server being proxied via a series `nine-track`', function () {
+  serverUtils.run(1337, function startServer (req, res) {
+    res.send(req.path);
+  });
+
   describe('when a request in the chain has been invalidated', function () {
     // First set of requests
-    httpUtils.save({
-      url: 'http://localhost:1338/items/save',
-      qs: {
-        hello: 'world'
-      }
-    });
-    httpUtils.save('http://localhost:1338/items');
-    httpUtils.save('http://localhost:1338/items/clear');
-    httpUtils.save('http://localhost:1338/items');
+    httpUtils.save('http://localhost:1338/hello');
+    httpUtils.save('http://localhost:1338/world');
 
     // Second set of requests
-    httpUtils.save({
-      url: 'http://localhost:1338/items/save',
-      qs: {
-        hello: 'world'
-      }
-    });
-    httpUtils.save('http://localhost:1338/items');
-    httpUtils.save('http://localhost:1338/items/clear2');
-    httpUtils.save('http://localhost:1338/items');
+    httpUtils.save('http://localhost:1338/hello');
+    httpUtils.save('http://localhost:1338/world2');
 
     it.skip('removes invalid fixtures in our chain', function () {
 
@@ -143,29 +133,15 @@ describe('A CRUD server being proxied via a series `nine-track`', function () {
     });
 
     describe('when we run our test again', function () {
-      httpUtils.save({
-        url: 'http://localhost:1338/items/save',
-        qs: {
-          hello: 'world'
-        }
-      });
-      httpUtils.save('http://localhost:1338/items');
-      httpUtils.save('http://localhost:1338/items/clear2');
-      httpUtils.save('http://localhost:1338/items');
+      httpUtils.save('http://localhost:1338/hello');
+      httpUtils.save('http://localhost:1338/world2');
 
       it.skip('generates a new set of fixtures', function () {
       });
 
       describe('when run again "in another run"', function () {
-        httpUtils.save({
-          url: 'http://localhost:1338/items/save',
-          qs: {
-            hello: 'world'
-          }
-        });
-        httpUtils.save('http://localhost:1338/items');
-        httpUtils.save('http://localhost:1338/items/clear2');
-        httpUtils.save('http://localhost:1338/items');
+        httpUtils.save('http://localhost:1338/hello');
+        httpUtils.save('http://localhost:1338/world2');
 
         it.skip('does not re-request', function () {
 
