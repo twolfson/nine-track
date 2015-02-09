@@ -152,10 +152,10 @@ describe.only('A server being proxied via a series `nine-track`', function () {
       expect(files).to.have.property('length', 1);
     });
     it('halts the test by throwing an error', function () {
-      expect(this.reqErr).to.an.instanceof(Error);
+      expect(process.err).to.an.instanceof(Error);
     });
 
-    describe.skip('when we run our test again', function () {
+    describe('when we run our test again', function () {
       before(function restartSeries () {
         this.nineTrack.startSeries('series-corrupt');
       });
@@ -180,7 +180,9 @@ describe.only('A server being proxied via a series `nine-track`', function () {
         httpUtils.save('http://localhost:1338/world2');
 
         it('does not re-request', function () {
-          expect(this.requests[1337]).to.have.property('length', 3);
+          // hello + world for first non-corrupt run
+          // hello + world2 for second run after cleaning
+          expect(this.requests[1337]).to.have.property('length', 4);
         });
       });
     });
