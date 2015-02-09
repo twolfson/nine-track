@@ -159,7 +159,7 @@ describe.only('A server being proxied via a series `nine-track`', function () {
       expect(files).to.have.property('length', 1);
     });
     it('halts the test by throwing an error', function () {
-      expect(this.reqErr).to.not.equal(null);
+      expect(this.reqErr).to.an.instanceof(Error);
     });
 
     describe.skip('when we run our test again', function () {
