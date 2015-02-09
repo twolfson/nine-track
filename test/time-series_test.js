@@ -29,24 +29,37 @@ describe('A CRUD server that is being proxied', function () {
     url: 'http://localhost:1337'
   });
 
-  describe('when requested', function () {
-    httpUtils.save('http://localhost:1338/');
-
-    it('replies with a 500 status code and its message', function () {
-      expect(this.err).to.equal(null);
-      expect(this.res.statusCode).to.equal(500);
-      expect(this.body).to.equal('error');
+  describe('when saving a new item and retrieving our items', function () {
+    httpUtils.save({
+      url: 'http://localhost:1338/items/save',
+      query: {
+        hello: 'world'
+      }
+    });
+    httpUtils.save({
+      url: 'http://localhost:1338/items'
     });
 
-    describe('when requested again', function () {
-      httpUtils.save('http://localhost:1338/');
+    it('saves the new item', function () {
+      expect(this.err).to.equal(null);
+      expect(this.res.statusCode).to.equal(200);
+      expect(JSON.parse(this.body)).to.deep.equal([{
+        hello: 'world'
+      }]);
+    });
 
-      it('has the same status code', function () {
-        expect(this.res.statusCode).to.equal(500);
-      });
+    describe('when clearing the items and retrieving our items', function () {
+      httpUtils.save('http://localhost:1338/items/clear');
+      httpUtils.save('http://localhost:1338/items');
 
-      it('does not double request', function () {
-        expect(this.requests[1337]).to.have.property('length', 1);
+      // TODO: It sucks that we cannot prevent double requests for re-use on the same server
+      //   This is because any future requests will be building off of the same chain.
+      //   Are there any alternatives to this? Like sending requests through another proxy only if we want it?
+
+      it('clears our storage', function () {
+        expect(this.err).to.equal(null);
+        expect(this.res.statusCode).to.equal(200);
+        expect(JSON.parse(this.body)).to.deep.equal([]);
       });
     });
   });
