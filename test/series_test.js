@@ -112,6 +112,17 @@ describe('A CRUD server that is being proxied by a series-based `nine-track`', f
   });
 });
 
+process.on('uncaughtException', function saveError (err) {
+  // If the error contains no info about corruption, throw it out
+  console.log('error');
+  // if (err.message.indexOf('found a corrupted series') === -1) {
+  //   throw err;
+  // }
+
+  // Otherwise, save it
+  // that.reqErr = err;
+});
+
 describe.only('A server being proxied via a series `nine-track`', function () {
   var fixtureDir = __dirname + '/actual-files/series-corrupt';
   serverUtils.run(1337, function startServer (req, res) {
@@ -127,15 +138,6 @@ describe.only('A server being proxied via a series `nine-track`', function () {
       this.nineTrack.startSeries('series-corrupt');
       // TODO: Find a better way to expose the error
       var that = this;
-      process.once('uncaughtException', function saveError (err) {
-        // If the error contains no info about corruption, throw it out
-        if (err.message.indexOf('found a corrupted series') === -1) {
-          throw err;
-        }
-
-        // Otherwise, save it
-        that.reqErr = err;
-      });
     });
     // First set of requests
     httpUtils.save('http://localhost:1338/hello');
@@ -160,7 +162,7 @@ describe.only('A server being proxied via a series `nine-track`', function () {
       expect(this.reqErr).to.not.equal(null);
     });
 
-    describe('when we run our test again', function () {
+    describe.skip('when we run our test again', function () {
       before(function restartSeries () {
         this.nineTrack.startSeries('series-corrupt');
       });
