@@ -136,6 +136,8 @@ describe('A server being proxied via a series `nine-track`', function () {
       // TODO: Read in directory and verify it's empty
     });
     it('halts the test by throwing an error', function () {
+      // TODO: We are emitting on `localReq` inside of `express`. It is impossible to catch here.
+      //   Consider doing something else but I have no idea what.
       expect(this.err).to.not.equal(null);
     });
 
