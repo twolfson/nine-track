@@ -123,7 +123,6 @@ describe('A server being proxied via a series `nine-track`', function () {
     this.nineTrack.startSeries('series-corrupt');
   });
 
-
   describe('when a request in the chain has been invalidated', function () {
     // First set of requests
     httpUtils.save('http://localhost:1338/hello');
@@ -133,26 +132,34 @@ describe('A server being proxied via a series `nine-track`', function () {
     httpUtils.save('http://localhost:1338/hello');
     httpUtils.save('http://localhost:1338/world2');
 
-    it('removes invalid fixtures in our chain', function () {
-
+    it.skip('removes invalid fixtures in our chain', function () {
+      // TODO: Read in directory and verify it's empty
     });
-    it.skip('halts the test by throwing an error', function () {
-
+    it('halts the test by throwing an error', function () {
+      expect(this.err).to.not.equal(null);
     });
 
     describe('when we run our test again', function () {
       httpUtils.save('http://localhost:1338/hello');
       httpUtils.save('http://localhost:1338/world2');
 
-      it.skip('generates a new set of fixtures', function () {
+      it('generates a new set of fixtures', function () {
+        expect(this.err).to.equal(null);
+        expect(this.res.statusCode).to.equal(200);
+        expect(this.body).to.equal('/world2');
       });
 
       describe('when run again "in another run"', function () {
+        before(function restartSeries () {
+          this.nineTrack.stopSeries();
+          this.nineTrack.startSeries('series-corrupt');
+        });
+
         httpUtils.save('http://localhost:1338/hello');
         httpUtils.save('http://localhost:1338/world2');
 
-        it.skip('does not re-request', function () {
-
+        it('does not re-request', function () {
+          expect(this.requests[1337]).to.have.property('length', 2);
         });
       });
     });
