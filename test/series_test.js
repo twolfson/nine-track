@@ -123,6 +123,7 @@ describe.only('A server being proxied via a series `nine-track`', function () {
     this.nineTrack.startSeries('series-corrupt');
     var that = this;
     this.nineTrack.on('error', function saveError (err) {
+      console.log('errord');
       that.err = err;
     });
   });
