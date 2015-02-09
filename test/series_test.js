@@ -58,13 +58,6 @@ describe('A CRUD server that is being proxied by a series-based `nine-track`', f
       httpUtils.save('http://localhost:1338/items/clear');
       httpUtils.save('http://localhost:1338/items');
 
-      // TODO: It sucks that we cannot prevent double requests for re-use on the same server
-      //   This is because any future requests will be building off of the same chain.
-      //   Are there any alternatives to this? Like sending requests through another proxy only if we want it?
-
-      // TODO: What if we want other requests to re-use the first 2 parts of our chain?
-      //   We really need to buffer ahead of time some how...
-
       it('clears our storage', function () {
         // DEV: This is broken because we are not doing our time series magic yet
         expect(this.err).to.equal(null);
@@ -77,6 +70,7 @@ describe('A CRUD server that is being proxied by a series-based `nine-track`', f
           this.nineTrack.stopSeries();
           this.nineTrack.startSeries('series-test');
         });
+
         it.skip('does not re-request our server', function () {
         });
       });
@@ -91,11 +85,26 @@ describe('A CRUD server that is being proxied by a series-based `nine-track`', f
 
 describe('A CRUD server being proxied via a series `nine-track`', function () {
   describe('when a request in the chain has been invalidated', function () {
+    // First set of requests
+
+    // Second set of requests
+
     it.skip('removes invalid fixtures in our chain', function () {
 
     });
     it.skip('halts the test by throwing an error', function () {
 
+    });
+
+    describe('when we run our test again', function () {
+      it.skip('generates a new set of fixtures', function () {
+      });
+
+      describe('when run again "in another run"', function () {
+        it.skip('does not re-request', function () {
+
+        });
+      });
     });
   });
 });
