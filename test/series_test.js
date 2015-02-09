@@ -42,9 +42,7 @@ describe('A CRUD server that is being proxied by a series-based `nine-track`', f
         hello: 'world'
       }
     });
-    httpUtils.save({
-      url: 'http://localhost:1338/items'
-    });
+    httpUtils.save('http://localhost:1338/items');
 
     it('saves the new item', function () {
       expect(this.err).to.equal(null);
@@ -70,8 +68,18 @@ describe('A CRUD server that is being proxied by a series-based `nine-track`', f
           this.nineTrack.stopSeries();
           this.nineTrack.startSeries('series-test');
         });
+        httpUtils.save({
+          url: 'http://localhost:1338/items/save',
+          qs: {
+            hello: 'world'
+          }
+        });
+        httpUtils.save('http://localhost:1338/items');
+        httpUtils.save('http://localhost:1338/items/clear');
+        httpUtils.save('http://localhost:1338/items');
 
-        it.skip('does not re-request our server', function () {
+        it('does not re-request our server', function () {
+          expect(this.requests[1337]).to.have.property('length', 4);
         });
       });
 
@@ -86,8 +94,26 @@ describe('A CRUD server that is being proxied by a series-based `nine-track`', f
 describe('A CRUD server being proxied via a series `nine-track`', function () {
   describe('when a request in the chain has been invalidated', function () {
     // First set of requests
+    httpUtils.save({
+      url: 'http://localhost:1338/items/save',
+      qs: {
+        hello: 'world'
+      }
+    });
+    httpUtils.save('http://localhost:1338/items');
+    httpUtils.save('http://localhost:1338/items/clear');
+    httpUtils.save('http://localhost:1338/items');
 
     // Second set of requests
+    httpUtils.save({
+      url: 'http://localhost:1338/items/save',
+      qs: {
+        hello: 'world'
+      }
+    });
+    httpUtils.save('http://localhost:1338/items');
+    httpUtils.save('http://localhost:1338/items/clear2');
+    httpUtils.save('http://localhost:1338/items');
 
     it.skip('removes invalid fixtures in our chain', function () {
 
@@ -97,10 +123,30 @@ describe('A CRUD server being proxied via a series `nine-track`', function () {
     });
 
     describe('when we run our test again', function () {
+      httpUtils.save({
+        url: 'http://localhost:1338/items/save',
+        qs: {
+          hello: 'world'
+        }
+      });
+      httpUtils.save('http://localhost:1338/items');
+      httpUtils.save('http://localhost:1338/items/clear2');
+      httpUtils.save('http://localhost:1338/items');
+
       it.skip('generates a new set of fixtures', function () {
       });
 
       describe('when run again "in another run"', function () {
+        httpUtils.save({
+          url: 'http://localhost:1338/items/save',
+          qs: {
+            hello: 'world'
+          }
+        });
+        httpUtils.save('http://localhost:1338/items');
+        httpUtils.save('http://localhost:1338/items/clear2');
+        httpUtils.save('http://localhost:1338/items');
+
         it.skip('does not re-request', function () {
 
         });
