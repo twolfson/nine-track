@@ -121,6 +121,10 @@ describe('A server being proxied via a series `nine-track`', function () {
   });
   before(function enableSeries () {
     this.nineTrack.startSeries('series-corrupt');
+    var that = this;
+    this.nineTrack.on('error', function saveError (err) {
+      that.err = err;
+    });
   });
 
   describe('when a request in the chain has been invalidated', function () {
