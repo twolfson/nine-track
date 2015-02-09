@@ -127,6 +127,37 @@ Forward an incoming HTTP request in a [`mikeal/request`][]-like format.
 
 [`mikeal/request`]: https://github.com/mikeal/request
 
+### `nineTrack.startSeries(key)`
+Begin a series of requests that rely on each other. We will compound past keys onto the hash generated for the current request. This allows for testing items like:
+
+1. Retrieve item, verify non-existence
+2. Create item
+3. Retrieve item, verify existence
+
+Normally, we would be unable to test this since steps (1) and (3) have the same signature. However, by compounding the previous request keys into our key, we can handle this.
+
+**You must remember to run `stopSeries()` at the end of a series. If you do not, it will pollute future requests and make your tests brittle.**
+
+- key `String` - Namespace to use in hashing our requests
+    - This is practical to prevent collisions of similar tests that rely on the same request (e.g. retrieving all resources)
+
+```js
+var nineTrackInstance = nineTrack({
+  url: {
+    protocol: 'http:',
+    hostname: 'localhost',
+    port: 1337
+  },
+  fixtureDir: 'directory/to/save/responses'
+});
+nineTrackInstance.startSeries('create-test');
+// Run get, create, get as requests in series
+nineTrackInstance.stopSeries();
+```
+
+### `nineTrack.stopSeries()`
+Stop a series of requests. This will remove the chaining effect from `startSeries` and reset `nineTrack` to default behavior.
+
 ## Examples
 ### Proxy server with subpath
 `nine-track` can talk to servers that are behind a specific path
