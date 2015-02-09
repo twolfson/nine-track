@@ -29,9 +29,6 @@ describe('A CRUD server that is being proxied by a series-based `nine-track`', f
     url: 'http://localhost:1337'
   });
   before(function enableSeries () {
-    // TODO: Create method
-    // TODO: Require `key` for our series to prevent collisions between tests ;D
-    // TODO: If `key` is already present when running another test, throw a complaint
     this.nineTrack.startSeries('series-test');
   });
 
@@ -55,6 +52,9 @@ describe('A CRUD server that is being proxied by a series-based `nine-track`', f
     describe('when clearing the items and retrieving our items', function () {
       httpUtils.save('http://localhost:1338/items/clear');
       httpUtils.save('http://localhost:1338/items');
+      before(function stopSeries () {
+        this.nineTrack.stopSeries();
+      });
 
       it('clears our storage', function () {
         // DEV: This is broken because we are not doing our time series magic yet
@@ -65,8 +65,10 @@ describe('A CRUD server that is being proxied by a series-based `nine-track`', f
 
       describe('when we replay the series of events "in another run"', function () {
         before(function restartSeries () {
-          this.nineTrack.stopSeries();
           this.nineTrack.startSeries('series-test');
+        });
+        after(function stopSeries () {
+          this.nineTrack.stopSeries();
         });
         httpUtils.save({
           url: 'http://localhost:1338/items/save',
@@ -84,10 +86,13 @@ describe('A CRUD server that is being proxied by a series-based `nine-track`', f
       });
 
       describe('when we replay the first requests with a separate series key', function () {
-        before(function restartSeries () {
-          this.nineTrack.stopSeries();
+        before(function startNewSeries () {
           this.nineTrack.startSeries('series-separate-test');
         });
+        after(function stopSeries () {
+          this.nineTrack.stopSeries();
+        });
+
         httpUtils.save({
           url: 'http://localhost:1338/items/save',
           qs: {
