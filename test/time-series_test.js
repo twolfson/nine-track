@@ -56,6 +56,9 @@ describe('A CRUD server that is being proxied', function () {
       //   This is because any future requests will be building off of the same chain.
       //   Are there any alternatives to this? Like sending requests through another proxy only if we want it?
 
+      // TODO: What if we want other requests to re-use the first 2 parts of our chain?
+      //   We really need to buffer ahead of time some how...
+
       it('clears our storage', function () {
         expect(this.err).to.equal(null);
         expect(this.res.statusCode).to.equal(200);
