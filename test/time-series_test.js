@@ -9,14 +9,14 @@ describe('A CRUD server that is being proxied', function () {
   serverUtils.run(1337, function startCrudServer (req, res, next) {
     // If someone is retrieiving all our items, send them
     // DEV: These methods are intentionally simplified for less code
-    if (req.url === '/items') {
+    if (req.path === '/items') {
       return res.send(storage);
     // Otherwise, if someone is adding a new item, save it
-    } else if (req.url === '/items/save') {
+    } else if (req.path === '/items/save') {
       storage.push(req.query);
       return res.send('OK');
     // Otherwise, if someone is clearing out our db, clear it
-    } else if (req.url === '/items/clear') {
+    } else if (req.path === '/items/clear') {
       storage = [];
       return res.send('OK');
     // Otherwise, send a 404
@@ -32,7 +32,7 @@ describe('A CRUD server that is being proxied', function () {
   describe('when saving a new item and retrieving our items', function () {
     httpUtils.save({
       url: 'http://localhost:1338/items/save',
-      query: {
+      qs: {
         hello: 'world'
       }
     });
