@@ -154,9 +154,9 @@ describe.only('A server being proxied via a series `nine-track`', function () {
       this.nineTrack.stopSeries();
     });
 
-    it('removes invalid fixtures in our chain', function () {
+    it('removes invalid fixtures in the head of our chain', function () {
       var files = fs.readdirSync(fixtureDir);
-      expect(files).to.have.property('length', 0);
+      expect(files).to.have.property('length', 1);
     });
     it('halts the test by throwing an error', function () {
       expect(this.reqErr).to.not.equal(null);
