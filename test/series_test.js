@@ -25,7 +25,7 @@ describe('A CRUD server that is being proxied by a series-based `nine-track`', f
     }
   });
   serverUtils.runNineServer(1338, {
-    fixtureDir: __dirname + '/actual-files/time-series',
+    fixtureDir: __dirname + '/actual-files/series',
     url: 'http://localhost:1337'
   });
   before(function enableSeries () {
