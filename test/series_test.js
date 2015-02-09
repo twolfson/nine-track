@@ -124,8 +124,13 @@ describe.only('A server being proxied via a series `nine-track`', function () {
     before(function enableSeries () {
       this.nineTrack.startSeries('series-corrupt');
       var that = this;
-      this.nineTrack.on('error', function saveError (err) {
-        console.log('errord');
+      process.once('uncaughtException', function saveError (err) {
+        // If the error contains no info about corruption, throw it out
+        if (err.message.indexOf('found a corrupted series') === -1) {
+          throw err;
+        }
+
+        // Otherwise, save it
         that.reqErr = err;
       });
     });
