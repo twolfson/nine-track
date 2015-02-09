@@ -4,7 +4,7 @@ var httpUtils = require('./utils/http');
 var serverUtils = require('./utils/server');
 
 // Start our tests
-describe('A CRUD server that is being proxied', function () {
+describe('A CRUD server that is being proxied by a series-based `nine-track`', function () {
   var storage = [];
   serverUtils.run(1337, function startCrudServer (req, res, next) {
     // If someone is retrieiving all our items, send them
@@ -27,6 +27,11 @@ describe('A CRUD server that is being proxied', function () {
   serverUtils.runNineServer(1338, {
     fixtureDir: __dirname + '/actual-files/time-series',
     url: 'http://localhost:1337'
+  });
+  before(function enableSeries () {
+    // TODO: Create method
+    // TODO: Require `key` for our series to prevent collisions between tests ;D
+    this.nineTrack.startSeries();
   });
 
   describe('when saving a new item and retrieving our items', function () {
