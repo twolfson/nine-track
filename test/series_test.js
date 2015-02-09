@@ -119,23 +119,30 @@ describe.only('A server being proxied via a series `nine-track`', function () {
     fixtureDir: __dirname + '/actual-files/series-corrupt',
     url: 'http://localhost:1337'
   });
-  before(function enableSeries () {
-    this.nineTrack.startSeries('series-corrupt');
-    var that = this;
-    this.nineTrack.on('error', function saveError (err) {
-      console.log('errord');
-      that.err = err;
-    });
-  });
 
   describe('when a request in the chain has been invalidated', function () {
+    before(function enableSeries () {
+      this.nineTrack.startSeries('series-corrupt');
+      var that = this;
+      this.nineTrack.on('error', function saveError (err) {
+        console.log('errord');
+        that.reqErr = err;
+      });
+    });
     // First set of requests
     httpUtils.save('http://localhost:1338/hello');
     httpUtils.save('http://localhost:1338/world');
+    before(function restartSeries () {
+      this.nineTrack.stopSeries();
+      this.nineTrack.startSeries('series-corrupt');
+    });
 
     // Second set of requests
     httpUtils.save('http://localhost:1338/hello');
     httpUtils.save('http://localhost:1338/world2');
+    before(function stopSeries () {
+      this.nineTrack.stopSeries();
+    });
 
     it.skip('removes invalid fixtures in our chain', function () {
       // TODO: Read in directory and verify it's empty
@@ -146,12 +153,18 @@ describe.only('A server being proxied via a series `nine-track`', function () {
       // TODO: Maybe we can emit on `nineTrack` itself?
       //   Technically, someone could use an `express` wrapper but `nine-track` is easier to listen to
       //   and we can bundle in the `req`/`res` for good measure.
-      expect(this.err).to.not.equal(null);
+      expect(this.reqErr).to.not.equal(null);
     });
 
     describe('when we run our test again', function () {
+      before(function restartSeries () {
+        this.nineTrack.startSeries('series-corrupt');
+      });
       httpUtils.save('http://localhost:1338/hello');
       httpUtils.save('http://localhost:1338/world2');
+      before(function stopSeries () {
+        this.nineTrack.stopSeries();
+      });
 
       it('generates a new set of fixtures', function () {
         expect(this.err).to.equal(null);
@@ -160,8 +173,7 @@ describe.only('A server being proxied via a series `nine-track`', function () {
       });
 
       describe('when run again "in another run"', function () {
-        before(function restartSeries () {
-          this.nineTrack.stopSeries();
+        before(function startSeries () {
           this.nineTrack.startSeries('series-corrupt');
         });
 
