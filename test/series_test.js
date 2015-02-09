@@ -138,6 +138,9 @@ describe('A server being proxied via a series `nine-track`', function () {
     it('halts the test by throwing an error', function () {
       // TODO: We are emitting on `localReq` inside of `express`. It is impossible to catch here.
       //   Consider doing something else but I have no idea what.
+      // TODO: Maybe we can emit on `nineTrack` itself?
+      //   Technically, someone could use an `express` wrapper but `nine-track` is easier to listen to
+      //   and we can bundle in the `req`/`res` for good measure.
       expect(this.err).to.not.equal(null);
     });
 
