@@ -81,6 +81,11 @@ exports.runNineServer = function (port, options) {
   after(function cleanup () {
     delete this.nineTrack;
   });
-  exports.run(port, nineTrackInstance);
+  // TODO: Yep, this isn't ideal...
+  exports.run(port, function runServer (req, res) {
+    req.on('error', function saveError () {
+      that.err = err;
+    });
+  });
   exports._cleanupNineTrack(options.fixtureDir);
 };
