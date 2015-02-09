@@ -74,6 +74,13 @@ exports._cleanupNineTrack = function (fixtureDir) {
   });
 };
 exports.runNineServer = function (port, options) {
-  exports.run(port, nineTrack(options));
+  var nineTrackInstance = nineTrack(options);
+  before(function exposeNineTrack () {
+    this.nineTrack = nineTrackInstance;
+  });
+  after(function cleanup () {
+    delete this.nineTrack;
+  });
+  exports.run(port, nineTrackInstance);
   exports._cleanupNineTrack(options.fixtureDir);
 };
