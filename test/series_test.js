@@ -112,15 +112,8 @@ describe('A CRUD server that is being proxied by a series-based `nine-track`', f
   });
 });
 
-process.on('uncaughtException', function saveError (err) {
-  // If the error contains no info about corruption, throw it out
-  console.log('error');
-  // if (err.message.indexOf('found a corrupted series') === -1) {
-  //   throw err;
-  // }
-
-  // Otherwise, save it
-  // that.reqErr = err;
+process.on('uncaughtException', function(err) {
+  console.log('Caught exception: ' + err);
 });
 
 describe.only('A server being proxied via a series `nine-track`', function () {
