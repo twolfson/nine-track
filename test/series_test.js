@@ -118,26 +118,39 @@ describe.only('A server being proxied via a series `nine-track`', function () {
   serverUtils.run(1337, function startServer (req, res) {
     res.send(req.path);
   });
-  before(function setupCatchingServer () {
+  var _app;
+  var port = 1338;
+  var express = require('express');
+  before(function createRequestNamespace () {
+    this.requests[port] = [];
+  });
+  before(function startServer () {
     // Initialize our nineTrack
     this.nineTrack = nineTrack({
       fixtureDir: fixtureDir,
       url: 'http://localhost:1337'
     });
 
-    // Start a server that catches our errors
+    // Save requests as they come in
+    var app = express();
     var that = this;
-    serverUtils._run(function startHttpServer (app, port) {
-      return app.listen(port);
-    }, 1338, [
-      function catchErr (req, res, next) {
-        req.on('error', function handleErr (err) {
-          that.reqErr = err;
-        });
-        next();
-      },
-      this.nineTrack
-    ]);
+    app.use(function (req, res, next) {
+      that.requests[port].push(req);
+      next();
+    });
+
+    app.use(function catchErr (req, res, next) {
+      req.on('error', function handleErr (err) {
+        that.reqErr = err;
+      });
+      next();
+    });
+    app.use(this.nineTrack);
+
+    _app = app.listen(port);
+  });
+  after(function deleteServer (done) {
+    _app.close(done);
   });
   serverUtils._cleanupNineTrack(fixtureDir);
 
@@ -165,7 +178,7 @@ describe.only('A server being proxied via a series `nine-track`', function () {
       expect(files).to.have.property('length', 1);
     });
     it('halts the test by throwing an error', function () {
-      expect(process.err).to.an.instanceof(Error);
+      expect(this.reqErr).to.an.instanceof(Error);
     });
 
     describe('when we run our test again', function () {
