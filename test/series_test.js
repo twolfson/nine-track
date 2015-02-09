@@ -83,8 +83,23 @@ describe('A CRUD server that is being proxied by a series-based `nine-track`', f
         });
       });
 
-      describe('when we replay the first 2 requests in a separate key', function () {
-        it.skip('makes the original 2 requests again', function () {
+      describe('when we replay the first requests with a separate series key', function () {
+        before(function restartSeries () {
+          this.nineTrack.stopSeries();
+          this.nineTrack.startSeries('series-separate-test');
+        });
+        httpUtils.save({
+          url: 'http://localhost:1338/items/save',
+          qs: {
+            hello: 'world'
+          }
+        });
+        httpUtils.save('http://localhost:1338/items');
+        httpUtils.save('http://localhost:1338/items/clear');
+        httpUtils.save('http://localhost:1338/items');
+
+        it('makes the original requests again', function () {
+          expect(this.requests[1337]).to.have.property('length', 8);
         });
       });
     });
