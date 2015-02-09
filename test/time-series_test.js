@@ -31,7 +31,8 @@ describe('A CRUD server that is being proxied by a series-based `nine-track`', f
   before(function enableSeries () {
     // TODO: Create method
     // TODO: Require `key` for our series to prevent collisions between tests ;D
-    this.nineTrack.startSeries();
+    // TODO: If `key` is already present when running another test, throw a complaint
+    this.nineTrack.startSeries('series-test');
   });
 
   describe('when saving a new item and retrieving our items', function () {
@@ -69,6 +70,20 @@ describe('A CRUD server that is being proxied by a series-based `nine-track`', f
         expect(this.err).to.equal(null);
         expect(this.res.statusCode).to.equal(200);
         expect(JSON.parse(this.body)).to.deep.equal([]);
+      });
+
+      describe('when we replay the series of events "in another run"', function () {
+        before(function restartSeries () {
+          this.nineTrack.stopSeries();
+          this.nineTrack.startSeries('series-test');
+        });
+        it.skip('does not re-request our server', function () {
+        });
+      });
+
+      describe('when we replay the first 2 requests in a separate key', function () {
+        it.skip('makes the original 2 requests again', function () {
+        });
       });
     });
   });
