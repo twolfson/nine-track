@@ -1,6 +1,7 @@
 // Load in our dependencies
 var fs = require('fs');
 var expect = require('chai').expect;
+var nineTrack = require('../');
 var httpUtils = require('./utils/http');
 var serverUtils = require('./utils/server');
 
@@ -112,25 +113,37 @@ describe('A CRUD server that is being proxied by a series-based `nine-track`', f
   });
 });
 
-process.on('uncaughtException', function(err) {
-  console.log('Caught exception: ' + err);
-});
-
 describe.only('A server being proxied via a series `nine-track`', function () {
   var fixtureDir = __dirname + '/actual-files/series-corrupt';
   serverUtils.run(1337, function startServer (req, res) {
     res.send(req.path);
   });
-  serverUtils.runNineServer(1338, {
-    fixtureDir: fixtureDir,
-    url: 'http://localhost:1337'
+  before(function setupCatchingServer () {
+    // Initialize our nineTrack
+    this.nineTrack = nineTrack({
+      fixtureDir: fixtureDir,
+      url: 'http://localhost:1337'
+    });
+
+    // Start a server that catches our errors
+    var that = this;
+    serverUtils._run(function startHttpServer (app, port) {
+      return app.listen(port);
+    }, 1338, [
+      function catchErr (req, res, next) {
+        req.on('error', function handleErr (err) {
+          that.reqErr = err;
+        });
+        next();
+      },
+      this.nineTrack
+    ]);
   });
+  serverUtils._cleanupNineTrack(fixtureDir);
 
   describe('when a request in the chain has been invalidated', function () {
     before(function enableSeries () {
       this.nineTrack.startSeries('series-corrupt');
-      // TODO: Find a better way to expose the error
-      var that = this;
     });
     // First set of requests
     httpUtils.save('http://localhost:1338/hello');
