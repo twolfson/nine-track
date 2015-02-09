@@ -119,11 +119,6 @@ describe('A server being proxied via a series `nine-track`', function () {
     res.send(req.path);
   });
   var _app;
-  var port = 1338;
-  var express = require('express');
-  before(function createRequestNamespace () {
-    this.requests[port] = [];
-  });
   before(function startServer () {
     // Initialize our nineTrack
     this.nineTrack = nineTrack({
@@ -131,23 +126,19 @@ describe('A server being proxied via a series `nine-track`', function () {
       url: 'http://localhost:1337'
     });
 
-    // Save requests as they come in
-    var app = express();
+    // Generate our server
     var that = this;
-    app.use(function (req, res, next) {
-      that.requests[port].push(req);
-      next();
-    });
-
-    app.use(function catchErr (req, res, next) {
-      req.on('error', function handleErr (err) {
-        that.reqErr = err;
-      });
-      next();
-    });
-    app.use(this.nineTrack);
-
-    _app = app.listen(port);
+    var startServerFn = exports._startServer(function startHttpServer (app, port) {
+      return app.listen(port);
+    }, 1338, [
+      function catchErr (req, res, next) {
+        req.on('error', function handleErr (err) {
+          that.reqErr = err;
+        });
+      },
+      this.nineTrack
+    ]);
+    _app = startServerFn.call(this);
   });
   after(function deleteServer (done) {
     _app.close(done);

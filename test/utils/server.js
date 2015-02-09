@@ -36,7 +36,7 @@ exports._run = function (listenFn, port, middlewares) {
   var _app;
   var startServerFn = exports._startServer(listenFn, port, middlewares);
   before(function startServer () {
-    _app = startServerFn();
+    _app = startServerFn.call(this);
   });
   after(function deleteServer (done) {
     _app.close(done);
