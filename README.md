@@ -141,6 +141,8 @@ Normally, we would be unable to test this since steps (1) and (3) have the same 
 - key `String` - Namespace to use in hashing our requests
     - This is practical to prevent collisions of similar tests that rely on the same request (e.g. retrieving all resources)
 
+> For your convenience, if a series is corrupted (e.g. a request signature changes), then we will attempt clean up the series and require a re-run of your test suite. We do not try to re-run with saved information since states could be inconsistent.
+
 ```js
 var nineTrackInstance = nineTrack({
   url: {
