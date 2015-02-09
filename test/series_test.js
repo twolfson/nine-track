@@ -123,9 +123,11 @@ describe.only('A server being proxied via a series `nine-track`', function () {
   describe('when a request in the chain has been invalidated', function () {
     before(function enableSeries () {
       this.nineTrack.startSeries('series-corrupt');
+      // TODO: Find a better way to expose the error
       var that = this;
       process.once('uncaughtException', function saveError (err) {
         // If the error contains no info about corruption, throw it out
+        console.log('caught');
         if (err.message.indexOf('found a corrupted series') === -1) {
           throw err;
         }
@@ -153,11 +155,6 @@ describe.only('A server being proxied via a series `nine-track`', function () {
       // TODO: Read in directory and verify it's empty
     });
     it('halts the test by throwing an error', function () {
-      // TODO: We are emitting on `localReq` inside of `express`. It is impossible to catch here.
-      //   Consider doing something else but I have no idea what.
-      // TODO: Maybe we can emit on `nineTrack` itself?
-      //   Technically, someone could use an `express` wrapper but `nine-track` is easier to listen to
-      //   and we can bundle in the `req`/`res` for good measure.
       expect(this.reqErr).to.not.equal(null);
     });
 
@@ -186,7 +183,7 @@ describe.only('A server being proxied via a series `nine-track`', function () {
         httpUtils.save('http://localhost:1338/world2');
 
         it('does not re-request', function () {
-          expect(this.requests[1337]).to.have.property('length', 2);
+          expect(this.requests[1337]).to.have.property('length', 3);
         });
       });
     });
