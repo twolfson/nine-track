@@ -1,4 +1,5 @@
 // Load in our dependencies
+var fs = require('fs');
 var expect = require('chai').expect;
 var httpUtils = require('./utils/http');
 var serverUtils = require('./utils/server');
@@ -112,11 +113,12 @@ describe('A CRUD server that is being proxied by a series-based `nine-track`', f
 });
 
 describe.only('A server being proxied via a series `nine-track`', function () {
+  var fixtureDir = __dirname + '/actual-files/series-corrupt';
   serverUtils.run(1337, function startServer (req, res) {
     res.send(req.path);
   });
   serverUtils.runNineServer(1338, {
-    fixtureDir: __dirname + '/actual-files/series-corrupt',
+    fixtureDir: fixtureDir,
     url: 'http://localhost:1337'
   });
 
@@ -127,7 +129,6 @@ describe.only('A server being proxied via a series `nine-track`', function () {
       var that = this;
       process.once('uncaughtException', function saveError (err) {
         // If the error contains no info about corruption, throw it out
-        console.log('caught');
         if (err.message.indexOf('found a corrupted series') === -1) {
           throw err;
         }
@@ -151,8 +152,9 @@ describe.only('A server being proxied via a series `nine-track`', function () {
       this.nineTrack.stopSeries();
     });
 
-    it.skip('removes invalid fixtures in our chain', function () {
-      // TODO: Read in directory and verify it's empty
+    it('removes invalid fixtures in our chain', function () {
+      var files = fs.readdirSync(fixtureDir);
+      expect(files).to.have.property('length', 0);
     });
     it('halts the test by throwing an error', function () {
       expect(this.reqErr).to.not.equal(null);
