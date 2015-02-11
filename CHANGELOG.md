@@ -1,4 +1,6 @@
 # nine-track changelog
+1.3.1 - Fixed lint errors
+
 1.3.0 - Added `startSeries`/`stopSeries` for handling series data
 
 1.2.0 - Added `scrubFn` to allow for sanitizing data before saving to disk
