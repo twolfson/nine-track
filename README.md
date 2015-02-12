@@ -227,9 +227,11 @@ express().use(nineTrack({
   url: 'http://localhost:1337/hello',
   fixtureDir: 'directory/to/save/responses',
   scrubFn: function (info) {
-    if (info.request.body.sensitive_token) {
+    var bodyObj = querystring.parse(info.request.body.toString('utf8'));
+    if (bodyObj.sensitive_token) {
       // Normalize all sensitive token to a hidden value
-      info.request.body.sensitive_token = '****';
+      bodyObj.sensitive_token = '****';
+      info.request.body = querystring.stringify(bodyObj);
     }
   }
 })).listen(1338);
