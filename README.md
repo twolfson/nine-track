@@ -300,6 +300,27 @@ request('http://localhost:1338/world', console.log); // {items: ['a', 'b']}
 */
 ```
 
+### Prevent recording
+In CI, it can be useful to prevent requests to remote servers since all fixtures should be saved by this point. In this example, we leverage `preventRecording` and the Travis CI environment variable to not allow new requests in Travis CI.
+
+```js
+// Start up a server that echoes our path
+express().use(function (req, res) {
+  res.json(req.path);
+}).listen(1337);
+
+// Create a server using a `nine-track` middleware to the original
+express().use(nineTrack({
+  url: 'http://localhost:1337/',
+  fixtureDir: 'directory/to/save/responses',
+  preventRecording: !!process.env.TRAVIS
+})).listen(1338);
+
+request('http://localhost:1338/world', console.log);
+
+// On an unsaved fixture in Travis CI
+```
+
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint via `npm run lint` and test via `npm test`.
 
