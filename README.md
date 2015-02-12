@@ -268,7 +268,7 @@ var nineTrackFn = nineTrack({
   fixtureDir: 'directory/to/save/responses'
 });
 express().use(function (localReq, localRes) {
-  nineTrackFn.forwardRequest(localReq, function handleResponse (err, remoteRes, remoteBody) {
+  nineTrackFn.forwardRequest(localReq, function (err, remoteRes, remoteBody) {
     // If there was an error, emit it
     if (err) {
       return localReq.emit('error', err);
@@ -287,12 +287,7 @@ express().use(function (localReq, localRes) {
 
 // On first run, makes successful request and saves sanitized data
 // On future runs, repeats same response
-request({
-  url: 'http://localhost:1338/world',
-  form: {
-    sensitive_token: 'password'
-  }
-}, console.log); // {items: ['a', 'b']}
+request('http://localhost:1338/world', console.log); // {items: ['a', 'b']}
 
 // Saved on disk
 /*
