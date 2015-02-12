@@ -180,6 +180,39 @@ express().use(nineTrack({
 request('http://localhost:1338/world', console.log);
 ```
 
+### Normalizing requests
+Sometimes requests have unpredictable an header or body (e.g. `timestamp`). We can leverage `normalizeFn` to make our request hashes consistent to force the same look up.
+
+**This does not affect outgoing request data.**
+
+```js
+// Start up a server that echoes our path
+express().use(function (req, res) {
+  res.send(req.path);
+}).listen(1337);
+
+// Create a server using a `nine-track` middleware to the original
+express().use(nineTrack({
+  url: 'http://localhost:1337/hello',
+  fixtureDir: 'directory/to/save/responses',
+  normalizeFn: function (info) {
+    if (info.headers['X-Timestamp']) {
+      // Normalize all timestamps to a consistent number
+      info.headers['X-Timestamp'] = '2015-02-12T00:00:00.000Z';
+    }
+  }
+})).listen(1338);
+
+// On first run, makes valid request
+// On future runs, repeats same response
+request({
+  url: 'http://localhost:1338/world',
+  headers: {
+    'X-Timestamp': (new Date()).toISOString()
+  }
+}, console.log);
+```
+
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint via `npm run lint` and test via `npm test`.
 
