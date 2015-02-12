@@ -255,6 +255,46 @@ request({
 ```
 
 ### Modifying response data
+Occasionally, we want to reply with near accurate data but adjust it slightly (e.g. return an empty list, reproduce an encoding issue). For this example, we will leverage `forwardRequest` to return an adjusted list.
+
+```js
+// Start up a server that echoes our path
+express().use(bodyParser.urlencoded()).use(function (req, res) {
+  res.send({items: ['a', 'b', 'c']});
+}).listen(1337);
+
+// Create a server using a `nine-track` middleware to the original
+var nineTrackFn = nineTrack({
+  url: 'http://localhost:1337/hello',
+  fixtureDir: 'directory/to/save/responses'
+});
+express().use(function (localReq, localRes) {
+  nineTrackFn.forwardRequest(req, function handleResponse (err, remoteRes, remoteBody) {
+    // If there was an error, emit it
+    if (err) {
+      return localReq.emit('error', err);
+    }
+
+    // Otherwise, attempt to adjust the body
+    var remoteJson = JSON.parse(remoteBody);
+    if (remoteJson.items.length === 3) {
+      remoteJson.items.pop();
+    }
+
+    // Send our response
+    res.send(remoteJson);
+  });
+}).listen(1338);
+
+// On first run, makes successful request and saves sanitized data
+// On future runs, repeats same response
+request({
+  url: 'http://localhost:1338/world',
+  form: {
+    sensitive_token: 'password'
+  }
+}, console.log); // {items: ['a', 'b']}
+```
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint via `npm run lint` and test via `npm test`.
