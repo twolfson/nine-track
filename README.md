@@ -258,8 +258,8 @@ Occasionally, we want to reply with near accurate data but adjust it slightly (e
 
 ```js
 // Start up a server that echoes our path
-express().use(bodyParser.urlencoded()).use(function (req, res) {
-  res.send({items: ['a', 'b', 'c']});
+express().use(function (req, res) {
+  res.json({items: ['a', 'b', 'c']});
 }).listen(1337);
 
 // Create a server using a `nine-track` middleware to the original
@@ -268,7 +268,7 @@ var nineTrackFn = nineTrack({
   fixtureDir: 'directory/to/save/responses'
 });
 express().use(function (localReq, localRes) {
-  nineTrackFn.forwardRequest(req, function handleResponse (err, remoteRes, remoteBody) {
+  nineTrackFn.forwardRequest(localReq, function handleResponse (err, remoteRes, remoteBody) {
     // If there was an error, emit it
     if (err) {
       return localReq.emit('error', err);
@@ -281,7 +281,7 @@ express().use(function (localReq, localRes) {
     }
 
     // Send our response
-    res.send(remoteJson);
+    localRes.json(remoteJson);
   });
 }).listen(1338);
 
