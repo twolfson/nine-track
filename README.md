@@ -311,14 +311,24 @@ express().use(function (req, res) {
 
 // Create a server using a `nine-track` middleware to the original
 express().use(nineTrack({
-  url: 'http://localhost:1337/',
+  url: 'http://localhost:1337',
   fixtureDir: 'directory/to/save/responses',
   preventRecording: !!process.env.TRAVIS
 })).listen(1338);
 
 request('http://localhost:1338/world', console.log);
 
-// On an unsaved fixture in Travis CI
+// On an unsaved fixture in "Travis CI"
+/*
+events.js:72
+        throw er; // Unhandled 'error' event
+              ^
+Error: Fixture not found for request "{"httpVersion":"1.1","headers":{"host":"localhost:1338","connection":"keep-alive"},"trailers":{},"method":"GET","url":"/world","body":""}"
+    at createRemoteReq (/home/todd/github/nine-track/lib/nine-track.js:240:21)
+    at fn (/home/todd/github/nine-track/node_modules/async/lib/async.js:582:34)
+    at Object._onImmediate (/home/todd/github/nine-track/node_modules/async/lib/async.js:498:34)
+    at processImmediate [as _immediateCallback] (timers.js:354:15)
+*/
 ```
 
 ## Contributing
