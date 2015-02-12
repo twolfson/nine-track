@@ -241,7 +241,15 @@ request({
   form: {
     sensitive_token: 'password'
   }
-}, console.log);
+}, console.log); // true
+
+// Saved to disk
+/*
+  "request": {
+    ...
+    "body": "sensitive_token=****"
+  }
+*/
 ```
 
 ### Modifying response data
