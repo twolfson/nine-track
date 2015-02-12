@@ -14,6 +14,7 @@ describe('A server being proxied by a frozen `nine-track`', function () {
     // Initialize our nineTrack
     this.nineTrack = nineTrack({
       fixtureDir: fixtureDir,
+      preventRecording: true,
       url: 'http://localhost:1337'
     });
 
