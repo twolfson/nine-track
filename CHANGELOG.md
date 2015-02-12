@@ -1,4 +1,6 @@
 # nine-track changelog
+1.4.0 - Added `preventRecording`. Fixes uber/eight-track#36
+
 1.3.3 - Fixed up URLs in documentation
 
 1.3.2 - Added more examples. Fixes #2
