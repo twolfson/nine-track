@@ -247,10 +247,9 @@ request({
 
 // Saved to disk
 /*
-  "request": {
-    ...
-    "body": "sensitive_token=****"
-  }
+"request": {
+  "body": "sensitive_token=****"
+}
 */
 ```
 
@@ -294,6 +293,13 @@ request({
     sensitive_token: 'password'
   }
 }, console.log); // {items: ['a', 'b']}
+
+// Saved on disk
+/*
+"response": {
+  "body": "{\n  \"items\": [\n    \"a\",\n    \"b\",\n    \"c\"\n  ]\n}"
+}
+*/
 ```
 
 ## Contributing
