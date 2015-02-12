@@ -12,7 +12,7 @@ express().use(bodyParser.urlencoded()).use(function (req, res) {
 
 // Create a server using a `nine-track` middleware to the original
 express().use(nineTrack({
-  url: 'http://localhost:1337/hello',
+  url: 'http://localhost:1337',
   fixtureDir: 'directory/to/save/responses',
   scrubFn: function (info) {
     var bodyObj = querystring.parse(info.request.body.toString('utf8'));

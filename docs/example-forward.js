@@ -10,7 +10,7 @@ express().use(function (req, res) {
 
 // Create a server using a `nine-track` middleware to the original
 var nineTrackFn = nineTrack({
-  url: 'http://localhost:1337/hello',
+  url: 'http://localhost:1337',
   fixtureDir: 'directory/to/save/responses'
 });
 express().use(function (localReq, localRes) {
