@@ -1,0 +1,29 @@
+{
+  "request": {
+    "httpVersion": "1.1",
+    "headers": {
+      "host": "localhost:1338",
+      "connection": "keep-alive"
+    },
+    "trailers": {},
+    "method": "GET",
+    "url": "/hello",
+    "bodyEncoding": "utf8",
+    "body": ""
+  },
+  "response": {
+    "httpVersion": "1.1",
+    "headers": {
+      "x-powered-by": "Express",
+      "content-type": "text/html; charset=utf-8",
+      "content-length": "6",
+      "etag": "\"-1224063013\"",
+      "date": "Thu, 12 Feb 2015 08:53:27 GMT",
+      "connection": "keep-alive"
+    },
+    "trailers": {},
+    "statusCode": 200,
+    "bodyEncoding": "utf8",
+    "body": "/hello"
+  }
+}

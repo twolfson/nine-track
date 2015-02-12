@@ -5,7 +5,6 @@ var serverUtils = require('./utils/server');
 
 // DEV: This tests that we can sanitize saved data for public visibility
 describe('A server being proxied by a frozen `nine-track`', function () {
-  var fixtureDir = __dirname + '/test-files/prevent-recording';
   serverUtils.run(1337, function startServer (req, res) {
     res.send(req.path);
   });
@@ -13,7 +12,7 @@ describe('A server being proxied by a frozen `nine-track`', function () {
   before(function startServer () {
     // Initialize our nineTrack
     this.nineTrack = nineTrack({
-      fixtureDir: fixtureDir,
+      fixtureDir: __dirname + '/test-files/prevent-recording',
       preventRecording: true,
       url: 'http://localhost:1337'
     });
@@ -37,7 +36,6 @@ describe('A server being proxied by a frozen `nine-track`', function () {
     delete this.reqErr;
     _app.close(done);
   });
-  serverUtils._cleanupNineTrack(fixtureDir);
 
   describe('when requested at a recorded endpoint', function () {
     httpUtils.save('http://localhost:1338/hello');
