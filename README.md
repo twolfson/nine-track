@@ -49,6 +49,9 @@ Middleware creator for new `nineTrack's`. This *is not* a constructor.
     - fixtureDir `String` - Path to load/save HTTP responses
         - Files will be saved with the format `{{method}}_{{encodedUrl}}_{{hashOfRequestContent}}.json`
         - An example filename is `GET_%2F_658e61f2a6b2f1ae4c127e53f28dfecd.json`
+    - preventRecording `Boolean` - Flag to throw errors if a request has not been recorded previously
+        - By default, this is `false`; no errors will be thrown
+        - This can be useful in CI to reveal missing fixtures
     - normalizeFn `Function` - Function to adjust `request's` save location signature
         - If you would like to make two requests resolve from the same response file, this is how.
         - The function signature should be `function (info)` and can either mutate the `info` or return a fresh object
