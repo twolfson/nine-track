@@ -48,6 +48,8 @@ describe('A server being proxied by a frozen `nine-track`', function () {
   });
 
   describe('when requested at a unrecorded endpoint', function () {
+    httpUtils.save('http://localhost:1338/world');
+
     it('emits an error', function () {
       expect(this.reqErr).to.an.instanceof(Error);
     });
