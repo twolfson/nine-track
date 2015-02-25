@@ -1,4 +1,6 @@
 # nine-track changelog
+2.0.0 - Fixed `scrubFn` providing inconsistent responses when sending fresh data vs stored data. Fixes #4
+
 1.4.0 - Added `preventRecording`. Fixes uber/eight-track#36
 
 1.3.3 - Fixed up URLs in documentation
