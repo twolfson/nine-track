@@ -73,8 +73,7 @@ describe('A server being proxied by a response sanitizing `nine-track`', functio
     url: 'http://localhost:1337',
     scrubFn: function (info) {
       if (info.response && info.response.headers['X-Response-Header']) {
-          info.response.headers['X-Response-Header'] = 'def';
-        }
+        info.response.headers['X-Response-Header'] = 'def';
       }
     }
   });
