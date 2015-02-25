@@ -1,10 +1,11 @@
 var fs = require('fs');
+var path = require('path');
 var expect = require('chai').expect;
 var httpUtils = require('./utils/http');
 var serverUtils = require('./utils/server');
 
 // DEV: This tests that we can sanitize saved data for public visibility
-describe('A server being proxied by a sanitizing `nine-track`', function () {
+describe('A server being proxied by a request sanitizing `nine-track`', function () {
   serverUtils.run(1337, function (req, res) {
     res.send(req.headers);
   });
@@ -43,6 +44,11 @@ describe('A server being proxied by a sanitizing `nine-track`', function () {
       it('does not double request', function () {
         expect(this.requests[1337]).to.have.property('length', 1);
       });
+
+      it('plays back the scrubbed response', function () {
+        expect(this.err).to.equal(null);
+        expect(JSON.parse(this.body)).to.have.property('authorization', 'Basic aGVsbG86d29ybGQ=');
+      });
     });
 
     describe('and a request with a different set of credentials', function () {
@@ -51,6 +57,53 @@ describe('A server being proxied by a sanitizing `nine-track`', function () {
       it('receives a different set of credentials', function () {
         expect(this.err).to.equal(null);
         expect(JSON.parse(this.body)).to.have.property('authorization', 'Basic Z29vZGJ5ZTptb29u');
+      });
+    });
+  });
+});
+
+// DEV: This is a regression test for https://github.com/twolfson/nine-track/issues/4
+describe('A server being proxied by a response sanitizing `nine-track`', function () {
+  var fixtureDir = __dirname + '/actual-files/scrub-response';
+  serverUtils.run(1337, function (req, res) {
+    res.header('X-Response-Header', 'abc').send('hello');
+  });
+  serverUtils.runNineServer(1338, {
+    fixtureDir: fixtureDir,
+    url: 'http://localhost:1337',
+    scrubFn: function (info) {
+      var headers = info.response.headers;
+      if (headers['X-Response-Header']) {
+        headers['X-Response-Header'] = 'def';
+      }
+    }
+  });
+
+  describe('when requested', function () {
+    httpUtils.save('http://localhost:1338/');
+
+    it('replies with scrubbed response', function () {
+      expect(this.err).to.equal(null);
+      expect(this.res.headers).to.have.property('X-Response-Header', 'def');
+    });
+
+    it('scrubs authentication information from disk', function () {
+      var filepaths = fs.readdirSync(fixtureDir);
+      var filepath = filepaths[0];
+      var fixture = JSON.parse(fs.readFileSync(path.join(fixtureDir, filepath), 'utf8'));
+      expect(fixture.response.headers).to.have.property('X-Response-Header', 'def');
+    });
+
+    describe('when requested again', function () {
+      httpUtils.save('http://localhost:1338/');
+
+      it('does not double request', function () {
+        expect(this.requests[1337]).to.have.property('length', 1);
+      });
+
+      it('plays back the scrubbed response', function () {
+        expect(this.err).to.equal(null);
+        expect(this.res.headers).to.have.property('X-Response-Header', 'def');
       });
     });
   });
