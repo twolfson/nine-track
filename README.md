@@ -78,11 +78,8 @@ Middleware creator for new `nineTrack's`. This *is not* a constructor.
             - trailers `Object` - Trailers received by `response`
             - statusCode `Number` - Status code received from response
                 - An example would be `200`
-            - bodyEncoding `String` - Encoding format used for `body`
-                - This can be `utf8` or `base64`
-                - An example of a valid `utf8` body is `{"hello": "world"}`
-                - A `base64` body is the encoded form of any body that cannot be encoded via `utf8`
-            - body `String` - Encoded response body in `bodyEncoding` format
+            - body `Buffer` - Body received from response
+                - If this is adjusted, we will automatically correct the `Content-Length` response header
 
 [`url.format`]: http://nodejs.org/api/url.html#url_url_format_urlobj
 
