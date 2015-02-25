@@ -77,6 +77,7 @@ describe('A server being proxied by a response sanitizing `nine-track`', functio
           info.response.headers['x-response-header'] = 'def';
         }
         if (info.response.body) {
+          // DEV: headers['content-length'] is automatically adjusted
           info.response.body = 'bye';
         }
       }
