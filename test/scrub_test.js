@@ -72,8 +72,8 @@ describe('A server being proxied by a response sanitizing `nine-track`', functio
     fixtureDir: fixtureDir,
     url: 'http://localhost:1337',
     scrubFn: function (info) {
-      if (info.response && info.response.headers['X-Response-Header']) {
-        info.response.headers['X-Response-Header'] = 'def';
+      if (info.response && info.response.headers['x-response-header']) {
+        info.response.headers['x-response-header'] = 'def';
       }
     }
   });
@@ -83,14 +83,14 @@ describe('A server being proxied by a response sanitizing `nine-track`', functio
 
     it('replies with scrubbed response', function () {
       expect(this.err).to.equal(null);
-      expect(this.res.headers).to.have.property('X-Response-Header', 'def');
+      expect(this.res.headers).to.have.property('x-response-header', 'def');
     });
 
     it('scrubs authentication information from disk', function () {
       var filepaths = fs.readdirSync(fixtureDir);
       var filepath = filepaths[0];
       var fixture = JSON.parse(fs.readFileSync(path.join(fixtureDir, filepath), 'utf8'));
-      expect(fixture.response.headers).to.have.property('X-Response-Header', 'def');
+      expect(fixture.response.headers).to.have.property('x-response-header', 'def');
     });
 
     describe('when requested again', function () {
@@ -102,7 +102,7 @@ describe('A server being proxied by a response sanitizing `nine-track`', functio
 
       it('plays back the scrubbed response', function () {
         expect(this.err).to.equal(null);
-        expect(this.res.headers).to.have.property('X-Response-Header', 'def');
+        expect(this.res.headers).to.have.property('x-response-header', 'def');
       });
     });
   });
