@@ -90,7 +90,7 @@ describe('A server being proxied by a response sanitizing `nine-track`', functio
     it('replies with scrubbed response', function () {
       expect(this.err).to.equal(null);
       expect(this.res.headers).to.have.property('x-response-header', 'def');
-      expect(this.body).to.equal('goodbye');
+      expect(this.body).to.equal('bye');
     });
 
     it('scrubs authentication information from disk', function () {
@@ -110,7 +110,7 @@ describe('A server being proxied by a response sanitizing `nine-track`', functio
       it('plays back the scrubbed response', function () {
         expect(this.err).to.equal(null);
         expect(this.res.headers).to.have.property('x-response-header', 'def');
-        expect(this.body).to.equal('goodbye');
+        expect(this.body).to.equal('bye');
       });
     });
   });
