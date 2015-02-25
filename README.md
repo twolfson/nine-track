@@ -68,6 +68,7 @@ Middleware creator for new `nineTrack's`. This *is not* a constructor.
     - scrubFn `Function` - Functon to adjust `request's` and `response's` before saving to disk
         - If you would like to sanitize information from JSON files before saving, this is how.
         - The function signature should be `function (info)` and can either mutate `info` or return a fresh object
+        - `scrubFn` is run twice: on hash key lookup and when saving to disk. For key lookup, only `info.request` is defined and `info.response` must be checked for before manipulating it
         - info `Object` - Container for `request` and `response` information
           - request `Object` - Container for `request` information
             - Same information as present in `normalizeFn.info`
