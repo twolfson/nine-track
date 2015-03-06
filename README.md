@@ -10,7 +10,7 @@ This is built to make testing against third party services a breeze. No longer w
 [`vcr`]: https://rubygems.org/gems/vcr
 [`eight-track`]: https://github.com/uber/eight-track
 
-## Breaking changes in `3.0.0`
+## Breaking changes in 3.0.0
 We found a regression when saving series requests in parallel. To remedy this, we are only using `pastRequestKeys` from the time of the initial request. This means some of your hashes might change for series based requests.
 
 ## Getting Started
