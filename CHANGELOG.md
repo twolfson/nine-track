@@ -1,4 +1,6 @@
 # nine-track changelog
+3.0.1 - Fixed out of order placeholder requests issue
+
 3.0.0 - Repaired regression for parallel requests being made inside of `startSeries`. Fixes #8
 
 2.0.0 - Fixed `scrubFn` providing inconsistent responses when sending fresh data vs stored data. Fixes #4
