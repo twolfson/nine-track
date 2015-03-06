@@ -211,11 +211,12 @@ describe('A server being proxied via a series `nine-track`', function () {
 
 // DEV: This is a regression test for https://github.com/twolfson/nine-track/issues/8
 describe('A server being proxied via a series `nine-track`', function () {
+  var fixtureDir = __dirname + '/actual-files/series-parallel';
   serverUtils.run(1337, function startServer (req, res) {
     res.send(req.path);
   });
   serverUtils.runNineServer(1338, {
-    fixtureDir: __dirname + '/actual-files/series-parallel',
+    fixtureDir: fixtureDir,
     url: 'http://localhost:1337'
   });
   before(function enableSeries () {
@@ -237,5 +238,25 @@ describe('A server being proxied via a series `nine-track`', function () {
     it('has no errors', function () {
       // DEV: Regression was that we would be seeing both keys and considering request old
     });
+
+    it('saves with hashes received at time of request', function () {
+      var files = fs.readdirSync(fixtureDir);
+      expect(files).to.have.property('length', 2);
+      var firstJson = JSON.parse(fs.readFileSync(fixtureDir + '/' + files[0], 'utf8'));
+      var secondJson = JSON.parse(fs.readFileSync(fixtureDir + '/' + files[1], 'utf8'));
+      if (firstJson.pastRequestKeys.length !== 0) {
+        var tmpJson = firstJson;
+        firstJson = secondJson;
+        secondJson = tmpJson;
+      }
+
+      expect(firstJson.pastRequestKeys).to.deep.equal([]);
+      expect(secondJson.pastRequestKeys).to.have.length(1);
+      expect(secondJson.pastRequestKeys[0]).to.match(/Parallel request/);
+    });
   });
+});
+
+// DEV: This is to make sure the parallel fix doesn't destroy all hashes
+describe.skip('A server being proxied via a series `nine-track`', function () {
 });
