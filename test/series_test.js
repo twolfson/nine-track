@@ -206,3 +206,34 @@ describe('A server being proxied via a series `nine-track`', function () {
     });
   });
 });
+
+// DEV: This is a regression test for https://github.com/twolfson/nine-track/issues/8
+describe('A server being proxied via a series `nine-track`', function () {
+  serverUtils.run(1337, function startServer (req, res) {
+    res.send(req.path);
+  });
+  serverUtils.runNineServer(1338, {
+    fixtureDir: __dirname + '/actual-files/series-parallel',
+    url: 'http://localhost:1337'
+  });
+  before(function enableSeries () {
+    this.nineTrack.startSeries('series-parallel');
+  });
+
+  describe('when receiving 2 parallel requests', function () {
+    before(function parallelRequests (done) {
+      async.parallel([
+        function firstRequest (cb) {
+          request('http://localhost:1338/hello', cb);
+        },
+        function secondRequest (cb) {
+          request('http://localhost:1338/hello2', cb);
+        }
+      ], done);
+    });
+
+    it('has no errors', function () {
+      // DEV: Regression was that we would be seeing both keys and considering request old
+    });
+  });
+});
