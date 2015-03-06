@@ -1,6 +1,8 @@
 // Load in our dependencies
 var fs = require('fs');
+var async = require('async');
 var expect = require('chai').expect;
+var request = require('request');
 var nineTrack = require('../');
 var httpUtils = require('./utils/http');
 var serverUtils = require('./utils/server');
