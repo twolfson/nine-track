@@ -222,7 +222,7 @@ describe('A server being proxied via a series `nine-track`', function () {
     this.nineTrack.startSeries('series-parallel');
   });
 
-  describe('when receiving 2 parallel requests', function () {
+  describe.only('when receiving 2 parallel requests', function () {
     before(function parallelRequests (done) {
       async.parallel([
         function firstRequest (cb) {
