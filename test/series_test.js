@@ -223,7 +223,7 @@ describe('A server being proxied via a series `nine-track`', function () {
     this.nineTrack.startSeries('series-parallel');
   });
 
-  describe.only('when receiving 2 parallel requests', function () {
+  describe('when receiving 2 parallel requests', function () {
     before(function parallelRequests (done) {
       async.parallel([
         function firstRequest (cb) {
@@ -258,5 +258,50 @@ describe('A server being proxied via a series `nine-track`', function () {
 });
 
 // DEV: This is to make sure the parallel fix doesn't destroy all hashes
-describe.skip('A server being proxied via a series `nine-track`', function () {
+describe('A server being proxied via a series `nine-track`', function () {
+  var fixtureDir = __dirname + '/actual-files/series-series';
+  serverUtils.run(1337, function startServer (req, res) {
+    res.send(req.path);
+  });
+  serverUtils.runNineServer(1338, {
+    fixtureDir: fixtureDir,
+    url: 'http://localhost:1337'
+  });
+  before(function enableSeries () {
+    this.nineTrack.startSeries('series-series');
+  });
+
+  describe.only('when receiving 2 requests in series', function () {
+    before(function parallelRequests (done) {
+      async.series([
+        function firstRequest (cb) {
+          request('http://localhost:1338/hello', cb);
+        },
+        function secondRequest (cb) {
+          request('http://localhost:1338/hello2', cb);
+        }
+      ], done);
+    });
+
+    it('has no errors', function () {
+      // DEV: Regression was that we would be seeing both keys and considering request old
+    });
+
+    it('saves with hashes received at time of request', function () {
+      var files = fs.readdirSync(fixtureDir);
+      expect(files).to.have.property('length', 2);
+      var firstJson = JSON.parse(fs.readFileSync(fixtureDir + '/' + files[0], 'utf8'));
+      var secondJson = JSON.parse(fs.readFileSync(fixtureDir + '/' + files[1], 'utf8'));
+      if (firstJson.pastRequestKeys.length !== 0) {
+        var tmpJson = firstJson;
+        firstJson = secondJson;
+        secondJson = tmpJson;
+      }
+
+      expect(firstJson.pastRequestKeys).to.deep.equal([]);
+      expect(secondJson.pastRequestKeys).to.have.length(1);
+      expect(secondJson.pastRequestKeys[0]).to.not.match(/Parallel request/);
+      expect(secondJson.pastRequestKeys[0]).to.match(/^GET_%2Fhello_/);
+    });
+  });
 });
