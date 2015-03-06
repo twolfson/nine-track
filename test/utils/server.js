@@ -75,9 +75,9 @@ exports.runHttps = function (port, middlewares) {
 
 // Start an nine-track server
 exports._cleanupNineTrack = function (fixtureDir) {
-  // after(function cleanupNineTrack (done) {
-  //   rimraf(fixtureDir, done);
-  // });
+  after(function cleanupNineTrack (done) {
+    rimraf(fixtureDir, done);
+  });
 };
 exports.runNineServer = function (port, options) {
   var nineTrackInstance = nineTrack(options);
