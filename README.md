@@ -4,6 +4,7 @@ TODO: Document `nineTrack.proxy` support
 TODO: Verify `proxy` works as expected from `request`
 TODO: Complete skipped tests
 TODO: Add protocol support
+TODO: Drop pathname magic if it gets tedious to maintain, maybe restructure library so it's `nineTrack.forwarder` and `nineTrack.proxy`
 
 Record and playback HTTP requests
 
