@@ -4,7 +4,7 @@ var nineTrack = require('../');
 var httpUtils = require('./utils/http');
 var serverUtils = require('./utils/server');
 
-describe('A server', function () {
+describe.only('A server', function () {
   serverUtils.run(1337, function (req, res) {
     res.send('oh hai');
   });
