@@ -1,5 +1,8 @@
 # nine-track [![Build status](https://travis-ci.org/twolfson/nine-track.png?branch=master)](https://travis-ci.org/twolfson/nine-track)
 
+TODO: Document `nineTrack.proxy` support
+TODO: Verify `proxy` works as expected from `request`
+
 Record and playback HTTP requests
 
 This is built to make testing against third party services a breeze. No longer will your test suite fail because an external service is down.
@@ -43,6 +46,23 @@ request('http://localhost:1338/', console.log);
 
 // Hits saved response but still receieves 'Hello World!' response
 request('http://localhost:1338/', console.log);
+
+// Create a server using a `nine-track` proxy middleware
+express().use(nineTrack.proxy({
+  fixtureDir: 'directory/to/save/proxy/responses'
+}).listen(1339);
+
+// Hits original server, triggering a `console.log('Pinged!')` and 'Hello World!' response
+request({
+  url: 'http://localhost:1337/',
+  proxy: 'http://localhost:1339/'
+}, console.log);
+
+// Hits saved response but still receieves 'Hello World!' response
+request({
+  url: 'http://localhost:1337/',
+  proxy: 'http://localhost:1339/'
+}, console.log);
 ```
 
 ## Documentation
