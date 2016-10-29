@@ -58,6 +58,10 @@ describe('A server being proxied by `nine-track` that delivers binary content', 
     });
     serverUtils.run(1338, nineTrack({
       fixtureDir: __dirname + '/test-files/saved-binary',
+      // DEV: We normalize connection info across Node.js versions (changed after Node.js@0.10)
+      normalizeFn: function (info) {
+        info.headers.connection = 'keep-alive';
+      },
       url: 'http://localhost:1337'
     }));
 

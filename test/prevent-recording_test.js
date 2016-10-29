@@ -13,6 +13,10 @@ describe('A server being proxied by a frozen `nine-track`', function () {
     // Initialize our nineTrack
     this.nineTrack = nineTrack({
       fixtureDir: __dirname + '/test-files/prevent-recording',
+      // DEV: We normalize connection info across Node.js versions (changed after Node.js@0.10)
+      normalizeFn: function (info) {
+        info.headers.connection = 'keep-alive';
+      },
       preventRecording: true,
       url: 'http://localhost:1337'
     });
