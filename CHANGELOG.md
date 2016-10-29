@@ -1,4 +1,6 @@
 # nine-track changelog
+3.0.3 - Updated supported Node.js versions to >=0.10
+
 3.0.2 - Added foundry for release
 
 3.0.1 - Fixed out of order placeholder requests issue
