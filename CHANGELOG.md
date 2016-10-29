@@ -1,4 +1,6 @@
 # nine-track changelog
+3.0.2 - Added foundry for release
+
 3.0.1 - Fixed out of order placeholder requests issue
 
 3.0.0 - Repaired regression for parallel requests being made inside of `startSeries`. Fixes #8
