@@ -4,6 +4,12 @@ Record and playback HTTP requests
 
 This is built to make testing against third party services a breeze. No longer will your test suite fail because an external service is down.
 
+**Features:**
+
+- Proxy a single server or all servers
+- Support for binary requests
+- Support for normalizing and scrubbing requests
+
 > `nine-track` is inspired by [`cassette`][] and [`vcr`][]. This is a fork of [`eight-track`][] due to permissioning issues.
 
 [`cassette`]: https://github.com/uber/cassette
