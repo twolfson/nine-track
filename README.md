@@ -2,6 +2,7 @@
 
 TODO: Document `nineTrack.proxy` support
 TODO: Verify `proxy` works as expected from `request`
+TODO: Complete skipped tests
 
 Record and playback HTTP requests
 

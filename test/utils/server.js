@@ -90,3 +90,14 @@ exports.runNineServer = function (port, options) {
   exports.run(port, nineTrackInstance);
   exports._cleanupNineTrack(options.fixtureDir);
 };
+exports.runNineProxyServer = function (port, options) {
+  var nineTrackProxyInstance = nineTrack.proxy(options);
+  before(function exposeNineTrack () {
+    this.nineTrackProxy = nineTrackProxyInstance;
+  });
+  after(function cleanup () {
+    delete this.nineTrackProxy;
+  });
+  exports.run(port, nineTrackProxyInstance);
+  exports._cleanupNineTrack(options.fixtureDir);
+};
