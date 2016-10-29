@@ -3,6 +3,7 @@
 TODO: Document `nineTrack.proxy` support
 TODO: Verify `proxy` works as expected from `request`
 TODO: Complete skipped tests
+TODO: Add protocol support
 
 Record and playback HTTP requests
 
@@ -10,7 +11,9 @@ This is built to make testing against third party services a breeze. No longer w
 
 **Features:**
 
-- Proxy a single server or all servers
+- Supports request proxying (pass along request to `Host` header)
+- Supports request forwarding (pass along request to `url` parameter)
+    - Practical when library doesn't support proxies
 - Support for binary requests
 - Support for normalizing and scrubbing requests
 
