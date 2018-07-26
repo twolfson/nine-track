@@ -17,7 +17,7 @@ We found a regression when saving series requests in parallel. To remedy this, w
 Install the module with: `npm install nine-track`
 
 ```js
-// Start up a basic applciation
+// Start up a basic application
 var express = require('express');
 var nineTrack = require('nine-track');
 var request = require('request');
@@ -180,7 +180,7 @@ express().use(nineTrack({
   fixtureDir: 'directory/to/save/responses'
 })).listen(1338);
 
-// Logs `/hello/world`, concatenated result of `/hello` and `/world` pathss
+// Logs `/hello/world`, concatenated result of `/hello` and `/world` paths
 request('http://localhost:1338/world', console.log);
 ```
 
