@@ -1,4 +1,6 @@
 # nine-track changelog
+3.1.1 - Upgraded to pem@1.14.2 to fix dev vulnerability
+
 3.1.0 - Upgraded to request@2.88.0 to fix GitHub vulnerability warning
 
 3.0.4 - Upgraded to express@3.21.2 to fix GitHub vulnerability warning
